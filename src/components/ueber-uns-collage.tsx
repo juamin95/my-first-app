@@ -40,8 +40,8 @@ const photos: PhotoConfig[] = [
   {
     src: "/images/ueber-uns/team-collage.jpg",
     alt: "Das Grünschnitt-Team bei der Pause",
-    pos: "bottom-0 left-[10%] lg:left-[4%]",
-    size: "w-[62%] aspect-[4/3]",
+    pos: "top-[48%] left-[8%] lg:top-auto lg:bottom-0 lg:left-[4%]",
+    size: "w-[65%] aspect-[4/3]",
     rotate: 1.5,
     parallaxRange: [50, 10],
     delay: 0.2,
