@@ -52,18 +52,20 @@ export default async function Home() {
           <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-24 bg-gradient-to-l from-white to-transparent" />
           <div className="overflow-hidden">
             <div className="animate-scroll-left flex w-max items-center group-hover:[animation-play-state:paused]">
-              {Array.from({ length: 4 }).flatMap((_, rep) =>
+              {/* Two identical copies — animation translates -50% for seamless loop */}
+              {[0, 1].flatMap((rep) =>
                 partnerLogos.map((logo) => (
                   <div
                     key={`${rep}-${logo.alt}`}
-                    aria-hidden={rep >= 2}
+                    aria-hidden={rep === 1}
                     className="flex shrink-0 items-center justify-center px-10"
                   >
                     <Image
                       src={logo.src}
-                      alt={rep < 2 ? logo.alt : ""}
+                      alt={rep === 0 ? logo.alt : ""}
                       width={logo.width}
                       height={48}
+                      loading="eager"
                       className="h-10 w-auto object-contain grayscale opacity-60 transition-opacity hover:opacity-90"
                       unoptimized
                     />
