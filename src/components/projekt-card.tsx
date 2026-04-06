@@ -30,7 +30,7 @@ export function ProjektCard({ projekt, index = 0 }: ProjektCardProps) {
             {projekt.coverImage && !imgError ? (
               <Image
                 src={projekt.coverImage}
-                alt=""
+                alt={projekt.titel}
                 fill
                 className="object-cover transition-transform duration-500 group-hover:scale-105"
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"

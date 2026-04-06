@@ -34,6 +34,13 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
+      // ── non-www → www (canonical domain) ──────────────────────────
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "gruenschnitt-amini.de" }],
+        destination: "https://www.gruenschnitt-amini.de/:path*",
+        permanent: true,
+      },
       // ── Webflow → Next.js: Projektgalerie ─────────────────────────
       // Webflow used /galerie, /referenzen, or /portfolio
       {

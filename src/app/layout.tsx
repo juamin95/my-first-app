@@ -21,7 +21,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://gruenschnitt-amini.de"),
+  metadataBase: new URL("https://www.gruenschnitt-amini.de"),
   title: {
     default: "Garten- und Landschaftsbau Köln | Grünschnitt by Amini",
     template: "%s | Grünschnitt by Amini",
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "de_DE",
-    url: "https://gruenschnitt-amini.de",
+    url: "https://www.gruenschnitt-amini.de",
     siteName: "Grünschnitt by Marvin Amini",
     title: "Garten- und Landschaftsbau Köln | Grünschnitt by Amini",
     description:
@@ -46,7 +46,7 @@ export const metadata: Metadata = {
     images: ["/images/leistungen/gewerbe-hero.jpg"],
   },
   alternates: {
-    canonical: "https://gruenschnitt-amini.de",
+    canonical: "https://www.gruenschnitt-amini.de",
   },
 };
 
