@@ -24,20 +24,20 @@ export function ProjektCard({ projekt, index = 0 }: ProjektCardProps) {
         className="group block h-full"
         aria-label={`Projekt: ${projekt.titel}`}
       >
-        <article className="overflow-hidden rounded-2xl border border-primary/10 bg-white shadow-sm transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-lg">
+        <article className="overflow-hidden rounded-2xl border border-primary/10 bg-white/60 shadow-sm backdrop-blur-sm transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-lg">
           {/* Image */}
           <div className="relative aspect-[4/3] w-full overflow-hidden">
             {projekt.coverImage && !imgError ? (
               <Image
                 src={projekt.coverImage}
-                alt={projekt.titel}
+                alt=""
                 fill
                 className="object-cover transition-transform duration-500 group-hover:scale-105"
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                 onError={() => setImgError(true)}
               />
             ) : (
-              <div className="flex aspect-[4/3] w-full items-center justify-center bg-[#e8f0e4]">
+              <div className="flex aspect-[4/3] w-full items-center justify-center bg-brand-image-placeholder">
                 <ImageIcon className="h-12 w-12 text-primary/20" />
               </div>
             )}
@@ -71,7 +71,7 @@ export function ProjektCard({ projekt, index = 0 }: ProjektCardProps) {
 /** Skeleton placeholder for loading state */
 export function ProjektCardSkeleton() {
   return (
-    <div className="overflow-hidden rounded-2xl border border-primary/10 bg-white/70">
+    <div className="overflow-hidden rounded-2xl border border-primary/10 bg-white/60 backdrop-blur-sm">
       <div className="aspect-[4/3] w-full animate-pulse bg-muted" />
       <div className="p-5 sm:p-6 space-y-3">
         <div className="h-3 w-24 animate-pulse rounded bg-muted" />

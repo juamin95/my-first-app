@@ -193,7 +193,7 @@ export function ContactForm() {
                         <FormItem>
                           <FormLabel>Vorname <span className="text-destructive">*</span></FormLabel>
                           <FormControl>
-                            <Input placeholder="Max" {...field} />
+                            <Input placeholder="Max" autoComplete="given-name" {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -206,7 +206,7 @@ export function ContactForm() {
                         <FormItem>
                           <FormLabel>Nachname <span className="text-destructive">*</span></FormLabel>
                           <FormControl>
-                            <Input placeholder="Mustermann" {...field} />
+                            <Input placeholder="Mustermann" autoComplete="family-name" {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -221,7 +221,7 @@ export function ContactForm() {
                         <FormItem>
                           <FormLabel>E-Mail <span className="text-destructive">*</span></FormLabel>
                           <FormControl>
-                            <Input type="email" placeholder="max@beispiel.de" {...field} />
+                            <Input type="email" placeholder="max@beispiel.de" autoComplete="email" {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -234,7 +234,7 @@ export function ContactForm() {
                         <FormItem>
                           <FormLabel>Telefon <span className="text-destructive">*</span></FormLabel>
                           <FormControl>
-                            <Input type="tel" placeholder="0151 12345678" {...field} />
+                            <Input type="tel" placeholder="0151 12345678" autoComplete="tel" {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -261,7 +261,7 @@ export function ContactForm() {
                           >
                             {[
                               { value: "privat", label: "Privatkunde" },
-                              { value: "gewerblich", label: "Gewerblich" },
+                              { value: "gewerblich", label: "Gewerblich (Hausverwaltung, Firma, ...)" },
                             ].map((opt) => (
                               <label
                                 key={opt.value}
@@ -293,7 +293,7 @@ export function ContactForm() {
                           <RadioGroup
                             onValueChange={field.onChange}
                             value={field.value}
-                            className="grid grid-cols-3 gap-3"
+                            className="grid grid-cols-2 sm:grid-cols-3 gap-3"
                           >
                             {leistungsarten.map((art) => (
                               <label
@@ -321,7 +321,7 @@ export function ContactForm() {
                     name="projektumfang"
                     render={({ field }) => (
                       <FormItem className="space-y-3">
-                        <FormLabel>Ungefährer Projektumfang <span className="text-destructive">*</span></FormLabel>
+                        <FormLabel>Ungefährer Projektumfang <span className="text-muted-foreground text-xs font-normal">(optional)</span></FormLabel>
                         <FormControl>
                           <RadioGroup
                             onValueChange={field.onChange}
@@ -431,12 +431,12 @@ export function ContactForm() {
           )}
 
           {step < STEPS.length - 1 ? (
-            <Button type="button" onClick={goNext} className="gap-1.5">
+            <Button type="button" onClick={goNext} className="gap-1.5 bg-brand-green-cta text-white hover:bg-brand-green-cta-hover">
               Weiter
               <ChevronRight className="h-4 w-4" />
             </Button>
           ) : (
-            <Button type="submit" size="lg" disabled={status === "submitting"} className="gap-2">
+            <Button type="submit" size="lg" disabled={status === "submitting"} className="gap-2 bg-brand-green-cta text-white hover:bg-brand-green-cta-hover">
               {status === "submitting" ? (
                 <>
                   <Loader2 className="h-4 w-4 animate-spin" />

@@ -10,6 +10,24 @@ const config: Config = {
   theme: {
   	extend: {
   		colors: {
+  			/* ── Brand design tokens ── */
+  			'brand-green-light':       '#eef6e8',
+  			'brand-green-mid':         '#f4f7f2',
+  			'brand-green-muted':       '#ddebd5',
+  			'brand-green-accent':      '#d5e8cb',
+  			'brand-green-soft':        '#90d170',
+  			'brand-green-pale':        '#c8f0a8',
+  			'brand-green-deep':        '#3a632b',
+  			'brand-green-vivid':       '#6db33f',
+  			/* CTA-Buttons: WCAG AA mit weißem Text (#4f802e = 4.71:1) */
+  			'brand-green-cta':         '#4f802e',
+  			'brand-green-cta-hover':   '#3d6624',
+  			/* Amber-Akzent für Sterne, Zahlen-Highlights */
+  			'brand-amber':             '#D97706',
+  			'brand-stone-light':       '#f5f3ee',
+  			'brand-stone-mid':         '#ede9e2',
+  			'brand-stone-muted':       '#e0dbd1',
+  			'brand-image-placeholder': '#e8f0e4',
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
   			card: {
@@ -65,6 +83,16 @@ const config: Config = {
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',
   			sm: 'calc(var(--radius) - 4px)'
+  		},
+  		fontFamily: {
+  			sans:  ["var(--font-sans)",  "ui-sans-serif", "system-ui", "sans-serif"],
+  			serif: ["var(--font-serif)", "ui-serif",      "Georgia",   "serif"],
+  		},
+  		zIndex: {
+  			base:     '10',
+  			header:   '50',
+  			overlay:  '60',
+  			whatsapp: '40',
   		},
   		keyframes: {
   			'accordion-down': {

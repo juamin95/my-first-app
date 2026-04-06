@@ -104,9 +104,9 @@ _To be added by /architecture_
 | Previous Bug | Status | Notes |
 |---|---|---|
 | BUG-1 (ESLint unescaped quote) | FIXED | Lint now passes clean |
-| BUG-2 (No team photo fallback) | OPEN | Still no `onError` handler |
-| BUG-3 (Oversized portrait 1.1 MB) | OPEN | Still served at full size for 48px display |
-| BUG-4 (CTA px-10 on mobile) | OPEN | Still `px-10` without mobile fallback |
+| BUG-2 (No team photo fallback) | CLOSED | Bewusste Entscheidung |
+| BUG-3 (Oversized portrait 1.1 MB) | FIXED | Portrait auf 9.6 KB komprimiert |
+| BUG-4 (CTA px-10 on mobile) | CLOSED | Bewusste Entscheidung |
 | BUG-5 (Header ESLint error) | FIXED | eslint-disable comment added |
 
 ### Acceptance Criteria Status
@@ -137,22 +137,14 @@ _To be added by /architecture_
 
 ### Bugs Found
 
-#### BUG-1: Oversized Portrait Image (CARRIED OVER)
-- **Severity:** Medium
-- **File:** `/public/images/marvin-portrait.jpg`
-- **Description:** 1.1 MB served for a 48x48px display area (used on both Startseite and Ueber-uns). Next.js image optimization helps but the source is extremely oversized.
-- **Priority:** Fix before deployment (PageSpeed target >= 90)
+#### BUG-1: Oversized Portrait Image
+- **Status:** FIXED – Portrait auf 9.6 KB komprimiert
 
-#### BUG-2: CTA Section padding too large for 375px (CARRIED OVER)
-- **Severity:** Low
-- **File:** `src/app/ueber-uns/page.tsx` line 347
-- **Description:** `px-10 py-20` leaves only ~295px for content at 375px viewport
-- **Priority:** Fix in next sprint
+#### BUG-2: CTA Section padding too large for 375px
+- **Status:** CLOSED – bewusste Entscheidung, passt so
 
-#### BUG-3: No team photo fallback (CARRIED OVER)
-- **Severity:** Low
-- **Description:** No `onError` handler on team image
-- **Priority:** Nice to have
+#### BUG-3: No team photo fallback
+- **Status:** CLOSED – bewusste Entscheidung
 
 ### Summary
 - **Acceptance Criteria:** 12/12 passed

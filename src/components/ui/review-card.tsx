@@ -13,6 +13,7 @@ type ReviewCardProps = {
 export function ReviewCard({ name, tag, text, rating }: ReviewCardProps) {
   const [expanded, setExpanded] = useState(false)
   const isLong = text.length > 120
+  const textId = `review-text-${name.replace(/[^a-z0-9]/gi, "-").toLowerCase()}`
 
   return (
     <div className="flex h-full flex-col rounded-2xl border border-primary/10 bg-white/60 p-6 shadow-sm backdrop-blur-sm">
@@ -25,12 +26,14 @@ export function ReviewCard({ name, tag, text, rating }: ReviewCardProps) {
 
       {/* Quote */}
       <div className="flex-1">
-        <p className={`text-sm leading-relaxed text-foreground/80 ${!expanded && isLong ? "line-clamp-3" : ""}`}>
+        <p id={isLong ? textId : undefined} className={`text-sm leading-relaxed text-foreground/80 ${!expanded && isLong ? "line-clamp-3" : ""}`}>
           &bdquo;{text}&ldquo;
         </p>
         {isLong && (
           <button
             onClick={() => setExpanded(!expanded)}
+            aria-expanded={expanded}
+            aria-controls={textId}
             className="mt-1 text-xs font-semibold text-primary hover:underline"
           >
             {expanded ? "weniger" : "mehr lesen"}
@@ -47,7 +50,7 @@ export function ReviewCard({ name, tag, text, rating }: ReviewCardProps) {
           <p className="text-sm font-semibold text-foreground">{name}</p>
           <div className="mt-0.5 flex">
             {Array.from({ length: rating }).map((_, j) => (
-              <Star key={j} className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
+              <Star key={j} className="h-3.5 w-3.5 fill-brand-amber text-brand-amber" />
             ))}
           </div>
         </div>

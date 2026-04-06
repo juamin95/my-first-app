@@ -1,17 +1,23 @@
+"use client"
+
 import Link from "next/link"
 import Image from "next/image"
+import { usePathname } from "next/navigation"
 import { Phone, Mail, MapPin } from "lucide-react"
 import { Separator } from "@/components/ui/separator"
 
 const footerNavLinks = [
   { href: "/", label: "Startseite" },
-  { href: "/leistungen", label: "Leistungen" },
+  { href: "/leistungen/gewerbe", label: "Leistungen – Gewerbe & Öffentlich" },
+  { href: "/leistungen/privat", label: "Leistungen – Private Gardening" },
   { href: "/projekte", label: "Projekte" },
   { href: "/ueber-uns", label: "Über uns" },
   { href: "/kontakt", label: "Kontakt" },
 ] as const
 
 export function Footer() {
+  const pathname = usePathname()
+
   return (
     <footer className="border-t bg-muted/50">
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
@@ -43,7 +49,8 @@ export function Footer() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="text-sm text-muted-foreground transition-colors hover:text-primary"
+                  aria-current={pathname === link.href ? "page" : undefined}
+                  className="text-sm text-muted-foreground transition-colors hover:text-primary aria-[current=page]:text-primary"
                 >
                   {link.label}
                 </Link>

@@ -112,7 +112,7 @@ _To be added by /architecture_
 
 #### AC-1: Uebersichtsseite `/projekte`
 - [x] Grid layout with ProjektCards (image, title, badge, ort)
-- [ ] BUG-1: Filter tabs mismatch -- "Bauleistungen"/"Pflegeleistungen" filters missing, data model lacks `kategorie` field
+- [x] BUG-1: CLOSED (bewusste Entscheidung) – Filter-Tabs funktionieren korrekt laut Inhaber. `kategorie`-Feld in Supabase vorhanden.
 - [x] Static data source (Supabase pending PROJ-7)
 - [x] Loading skeleton via Suspense
 - [x] Empty state with FolderOpen icon

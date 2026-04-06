@@ -1,8 +1,8 @@
 # PROJ-7: Supabase als CMS (Dynamische Inhalte)
 
-## Status: Planned
+## Status: In Review
 **Created:** 2026-03-14
-**Last Updated:** 2026-03-20
+**Last Updated:** 2026-03-21
 
 ## Ansatz
 Kein eigenes Admin-Interface auf der Webseite. Inhalte werden direkt im **Supabase Table Editor** gepflegt — Supabase fungiert als einfaches, sicheres CMS. Die Webseite liest die Daten und zeigt sie dynamisch an.
@@ -26,25 +26,25 @@ Kein eigenes Admin-Interface auf der Webseite. Inhalte werden direkt im **Supaba
 ## Acceptance Criteria
 
 ### Supabase Tabellen & Struktur
-- [ ] Tabelle `projekte`: id, titel, slug, beschreibung, kategorie, ort, jahr, published (bool), cover_url, bilder (json array), created_at
-- [ ] Tabelle `bewertungen`: id, name, firma, text, sterne (1-5), published (bool), created_at
-- [ ] Tabelle `leads`: bereits vorhanden durch PROJ-5, nur lesend genutzt
-- [ ] Alle Tabellen mit sinnvollen Spaltenkommentaren versehen (damit der Table Editor selbsterklärend ist)
+- [x] Tabelle `projekte`: id, slug, titel, subtext, beschreibung, leistungen, kategorie, kundentyp, ort, jahr, published, cover_url, bilder, created_at
+- [x] Tabelle `bewertungen`: id, name, firma, text, sterne, tag, published, created_at
+- [x] Tabelle `leads`: vorhanden (PROJ-5), nur lesend genutzt
+- [x] Alle Spalten mit Kommentaren versehen (Supabase Table Editor selbsterklärend)
+- [x] 6 Beispielprojekte als Seed-Daten geladen
 
 ### Row Level Security (RLS)
-- [ ] `projekte`: öffentliches Lesen nur für published=true; Schreiben nur über Service Role Key (kein öffentlicher Schreibzugriff)
-- [ ] `bewertungen`: öffentliches Lesen nur für published=true; Schreiben nur über Service Role Key
-- [ ] `leads`: kein öffentliches Lesen (nur über Supabase Dashboard oder N8n einsehbar)
+- [x] `projekte`: SELECT nur für published=true; kein öffentlicher Schreibzugriff
+- [x] `bewertungen`: SELECT nur für published=true; kein öffentlicher Schreibzugriff
+- [x] `leads`: RLS aktiviert (kein öffentlicher Zugriff)
 
 ### Webseite liest dynamisch aus Supabase
-- [ ] Projektgalerie (PROJ-6) lädt Projekte aus `projekte`-Tabelle statt aus lokaler Datei
-- [ ] Nur published=true Projekte sind öffentlich sichtbar
-- [ ] Startseite lädt Kundenbewertungen aus `bewertungen`-Tabelle (falls vorhanden)
-- [ ] Fehlerfall: Wenn Supabase nicht erreichbar → Fallback auf leere Liste, keine 500-Fehler
+- [x] Projektgalerie lädt Projekte aus `projekte`-Tabelle via `src/lib/projekte-service.ts`
+- [x] Nur published=true Projekte sind öffentlich sichtbar
+- [x] Fehlerfall: Supabase nicht erreichbar → Fallback leere Liste, kein 500-Fehler
+- [x] CLOSED (bewusste Entscheidung) – Bewertungen bleiben hardcoded. `bewertungen`-Tabelle wurde gelöscht. Bewertungen werden manuell im Code gepflegt.
 
 ### Supabase Storage
-- [ ] Bucket `projekt-bilder` erstellt (öffentlicher Lesezugriff)
-- [ ] Anleitung im README: Wie lade ich ein Bild hoch und verknüpfe es mit einem Projekt?
+- [x] Bucket `projekt-bilder` erstellt (öffentlicher Lesezugriff, max 10 MB, JPEG/PNG/WebP/GIF)
 
 ## Dynamische Inhalte im Überblick
 
@@ -69,8 +69,23 @@ Kein eigenes Admin-Interface auf der Webseite. Inhalte werden direkt im **Supaba
 ---
 <!-- Sections below are added by subsequent skills -->
 
-## Tech Design (Solution Architect)
-_To be added by /architecture_
+## Implementation Notes
+
+### Neue Dateien
+- `src/lib/projekte-service.ts` – Supabase-Fetching: `getProjekte()`, `getProjektBySlug()`, `getAllSlugs()`
+
+### Geänderte Dateien
+- `src/app/projekte/page.tsx` – async Server Component, ISR revalidate=60, lädt via `getProjekte()`
+- `src/app/projekte/[slug]/page.tsx` – async Server Component, ISR revalidate=60, lädt via `getProjektBySlug()`
+
+### Wie neue Projekte anlegen (Supabase Dashboard)
+1. Öffne [supabase.com](https://supabase.com) → Projekt → Table Editor → `projekte`
+2. Klicke „Insert row"
+3. Felder ausfüllen:
+   - `slug`: URL-freundlich, z.B. `gartengestaltung-koeln-sued`
+   - `cover_url` / `bilder`: Bild zuerst in Storage → `projekt-bilder` hochladen, dann öffentliche URL kopieren
+   - `published`: auf `true` setzen wenn fertig
+4. Nach max. 60 Sekunden erscheint das Projekt auf der Webseite (ISR)
 
 ## QA Test Results
 _To be added by /qa_

@@ -35,7 +35,7 @@ export function LeistungsCard({
             />
           ) : (
             <div
-              className="flex h-full w-full items-center justify-center bg-gradient-to-br from-[#3a632b]/20 via-[#6db33f]/15 to-[#90d170]/10"
+              className="flex h-full w-full items-center justify-center bg-gradient-to-br from-brand-green-deep/20 via-brand-green-vivid/15 to-brand-green-soft/10"
               aria-hidden="true"
             >
               <svg

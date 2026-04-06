@@ -73,7 +73,7 @@ function Step({
           className="flex-1"
           style={{ opacity: textOpacity, y: textY }}
         >
-          <div className="rounded-2xl border border-black/[0.07] bg-white p-6 shadow-sm">
+          <div className="rounded-2xl border border-primary/10 bg-white/60 p-6 shadow-sm backdrop-blur-sm">
             <div className="mb-3 flex items-center gap-3">
               <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary text-sm font-bold text-white">
                 {step.num}
@@ -87,7 +87,7 @@ function Step({
 
       {/* Connecting line between steps – centered under the icon circle */}
       {!isLast && (
-        <div className={`${LINE_OFFSET} my-2 h-10 w-0.5 overflow-hidden rounded-full bg-primary/15`}>
+        <div className={`${LINE_OFFSET} relative my-2 h-10 w-0.5 overflow-hidden rounded-full bg-primary/15`}>
           <motion.div
             className="absolute inset-x-0 top-0 w-full bg-primary origin-top"
             style={{ scaleY: lineScale, height: "100%" }}
@@ -107,12 +107,21 @@ export function AblaufSection() {
   })
 
   return (
-    <section ref={containerRef} className="bg-white py-24" aria-label="Ablauf">
+    <section
+      ref={containerRef}
+      className="relative section-py"
+      style={{ background: "linear-gradient(to bottom, var(--section-sage), var(--section-white))" }}
+      aria-label="Ablauf"
+    >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-16 text-center">
-          <span className="text-sm font-semibold uppercase tracking-widest text-primary">
-            So funktioniert es
-          </span>
+          <div className="flex items-center justify-center gap-3">
+            <div className="h-px w-8 shrink-0 bg-primary/35" />
+            <span className="text-sm font-semibold uppercase tracking-widest text-primary">
+              So funktioniert es
+            </span>
+            <div className="h-px w-8 shrink-0 bg-primary/35" />
+          </div>
           <h2 className="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">
             Ihr Weg zum Traumgarten
           </h2>

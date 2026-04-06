@@ -1,18 +1,32 @@
 "use client"
 
 import Link from "next/link"
-import { Phone } from "lucide-react"
+import { Phone, Star } from "lucide-react"
+import { motion, useReducedMotion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 
 export function HeroScroll() {
+  const shouldReduce = useReducedMotion()
+
+  // Returns motion props or empty object (immediate visibility) when reduced motion is preferred
+  const reveal = (delay: number) =>
+    shouldReduce
+      ? {}
+      : {
+          initial: { opacity: 0, y: 14 },
+          animate: { opacity: 1, y: 0 },
+          transition: { duration: 0.5, delay, ease: "easeOut" as const },
+        }
+
   return (
-    <div className="relative h-[calc(100vh+2rem)] overflow-hidden">
+    <div className="relative h-[calc(100dvh+2rem)] overflow-hidden bg-[#1a2e1a]">
       {/* Background video */}
       <video
         autoPlay
         muted
         loop
         playsInline
+        aria-hidden="true"
         poster="/images/hero/titelbild.jpg"
         className="absolute inset-0 h-full w-full object-cover"
       >
@@ -24,28 +38,37 @@ export function HeroScroll() {
 
       {/* Content */}
       <div className="relative flex h-full flex-col items-center justify-center px-4 text-center">
-        <span className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/15 px-4 py-1.5 text-xs font-medium text-white">
-          10+ Jahre Erfahrung &middot; 3.000+ Projekte &middot; 5,0 Sterne
-        </span>
 
-        <h1 className="mt-4 text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl">
+        {/* Heading */}
+        <motion.h1
+          className="mt-4 text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl"
+          {...reveal(0.08)}
+        >
           Professioneller Garten- &amp;{" "}
           <br className="hidden sm:block" />
-          <span className="bg-gradient-to-r from-[#90d170] to-[#c8f0a8] bg-clip-text text-transparent">
+          <span className="bg-gradient-to-r from-brand-green-soft to-brand-green-pale bg-clip-text text-transparent">
             Landschaftsbau Betrieb
           </span>
-        </h1>
+        </motion.h1>
 
-        <p className="mx-auto mt-6 max-w-2xl text-lg text-white/85">
+        {/* Subline */}
+        <motion.p
+          className="mx-auto mt-6 max-w-2xl text-lg text-white/85"
+          {...reveal(0.16)}
+        >
           Wir gestalten Außenanlagen, die begeistern – für gewerbliche und
           private Kunden in Köln, Bergisch Gladbach und Leverkusen.
-        </p>
+        </motion.p>
 
-        <div className="mt-10 flex w-full max-w-sm flex-col items-center gap-4 sm:max-w-none sm:flex-row sm:justify-center">
+        {/* Buttons */}
+        <motion.div
+          className="mt-10 flex w-full max-w-sm flex-col items-center gap-4 sm:max-w-none sm:flex-row sm:justify-center"
+          {...reveal(0.24)}
+        >
           <Button
             asChild
             size="lg"
-            className="w-full sm:w-auto sm:min-w-[220px] bg-primary text-primary-foreground hover:bg-primary/90"
+            className="w-full sm:w-auto sm:min-w-[220px] bg-brand-green-cta text-white hover:bg-brand-green-cta-hover"
           >
             <Link href="/kontakt">Kontakt aufnehmen</Link>
           </Button>
@@ -60,32 +83,26 @@ export function HeroScroll() {
               Direkt anrufen
             </a>
           </Button>
-        </div>
+        </motion.div>
 
         {/* Trust logos */}
-        <div className="mt-10 flex items-center justify-center gap-6">
+        <motion.div
+          className="mt-10 flex items-center justify-center gap-6"
+          {...reveal(0.32)}
+        >
           <div className="h-px w-12 bg-white/20" />
-          <div className="flex items-center gap-5">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/logos/galabau-nrw.svg"
-              alt="GaLaBau NRW Mitglied"
-              className="h-14 w-auto opacity-70 brightness-0 invert"
-            />
-            <div className="h-8 w-px bg-white/20" />
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/logos/ihk-koeln.svg"
-              alt="IHK Köln Mitglied"
-              className="h-11 w-auto opacity-70"
-            />
-          </div>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/logos/ihk-koeln.svg"
+            alt="IHK Köln Mitglied"
+            className="h-11 w-auto opacity-70"
+          />
           <div className="h-px w-12 bg-white/20" />
-        </div>
+        </motion.div>
       </div>
 
       {/* Scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-bounce">
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-scroll-bounce">
         <span className="text-xs font-medium text-white/60 tracking-widest uppercase">Scrollen</span>
         <svg className="h-5 w-5 text-white/50" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />

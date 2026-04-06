@@ -24,14 +24,15 @@ const navLinks = [
 ] as const
 
 const leistungsLinks = [
-  { href: "/leistungen#pflege", label: "Pflegeleistungen", description: "Rasenpflege, Heckenschnitt, Dauerpflege" },
-  { href: "/leistungen#bau", label: "Bauleistungen", description: "Terrassen, Naturstein, Erdarbeiten" },
+  { href: "/leistungen/gewerbe", label: "Gewerbe & Öffentlich", description: "Für gewerbliche Kunden und öffentliche Träger" },
+  { href: "/leistungen/privat",  label: "Private Gardening",    description: "Exklusiv für Privatgärten" },
 ] as const
 
 export function Header() {
   const pathname = usePathname()
   const [mobileOpen, setMobileOpen] = useState(false)
   const [leistungenOpen, setLeistungenOpen] = useState(false)
+  const [logoError, setLogoError] = useState(false)
 
   // Close on route change
   useEffect(() => {
@@ -52,19 +53,26 @@ export function Header() {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-50 px-4 pt-4">
+      <header className="fixed top-0 left-0 right-0 z-header px-4 pt-4">
         <div className="mx-auto max-w-7xl rounded-2xl border border-black/10 bg-white/80 px-6 shadow-sm backdrop-blur-md">
           <div className="flex h-16 items-center justify-between">
             {/* Logo */}
             <Link href="/" aria-label="Zur Startseite">
-              <Image
-                src="/logos/logo-amini.png"
-                alt="Grünschnitt by Marvin Amini"
-                width={140}
-                height={94}
-                className="h-10 w-auto object-contain"
-                priority
-              />
+              {logoError ? (
+                <span className="text-lg font-bold tracking-tight text-primary">
+                  Grünschnitt
+                </span>
+              ) : (
+                <Image
+                  src="/logos/logo-amini.png"
+                  alt="Grünschnitt by Marvin Amini"
+                  width={140}
+                  height={94}
+                  className="h-10 w-auto object-contain"
+                  priority
+                  onError={() => setLogoError(true)}
+                />
+              )}
             </Link>
 
             {/* Desktop Navigation */}
@@ -96,18 +104,7 @@ export function Header() {
                     Leistungen
                   </NavigationMenuTrigger>
                   <NavigationMenuContent>
-                    <ul className="w-56 p-2">
-                      <li>
-                        <NavigationMenuLink asChild>
-                          <Link
-                            href="/leistungen"
-                            className="block rounded-lg px-3 py-2 text-sm font-semibold text-foreground/80 hover:bg-primary/5 hover:text-primary transition-colors"
-                          >
-                            Alle Leistungen
-                          </Link>
-                        </NavigationMenuLink>
-                      </li>
-                      <li className="my-1 border-t border-black/5" />
+                    <ul className="w-64 p-2">
                       {leistungsLinks.map((item) => (
                         <li key={item.href}>
                           <NavigationMenuLink asChild>
@@ -165,7 +162,7 @@ export function Header() {
       {/* ── Fullscreen Mobile Menu ── */}
       <div
         className={cn(
-          "fixed inset-0 z-40 flex flex-col transition-all duration-300 md:hidden",
+          "fixed inset-0 z-overlay flex flex-col transition-all duration-300 md:hidden",
           mobileOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
         )}
         style={{ backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)", backgroundColor: "rgba(255,255,255,0.85)" }}
@@ -183,13 +180,13 @@ export function Header() {
         </div>
 
         {/* Nav links */}
-        <nav className="flex flex-1 flex-col items-center justify-center gap-1" aria-label="Mobile Navigation">
+        <nav className="flex w-full flex-1 flex-col justify-start overflow-y-auto pt-6 gap-1 px-6" aria-label="Mobile Navigation">
           {/* Startseite */}
           <Link
             href="/"
             onClick={() => setMobileOpen(false)}
             className={cn(
-              "w-full max-w-xs rounded-2xl px-6 py-4 text-center text-xl font-semibold transition-colors text-foreground/70 hover:bg-primary/5 hover:text-primary",
+              "w-full rounded-2xl px-6 py-4 text-center text-xl font-semibold transition-colors text-foreground/70 hover:bg-primary/5 hover:text-primary",
               isActive("/") && "text-primary bg-primary/5"
             )}
           >
@@ -197,7 +194,7 @@ export function Header() {
           </Link>
 
           {/* Leistungen mit Submenu */}
-          <div className="w-full max-w-xs">
+          <div className="w-full">
             <button
               onClick={() => setLeistungenOpen((v) => !v)}
               className={cn(
@@ -209,20 +206,13 @@ export function Header() {
               <ChevronDown className={cn("h-5 w-5 transition-transform duration-200", leistungenOpen && "rotate-180")} />
             </button>
             {leistungenOpen && (
-              <div className="mt-1 flex flex-col gap-1 pl-4">
-                <Link
-                  href="/leistungen"
-                  onClick={() => setMobileOpen(false)}
-                  className="rounded-xl px-5 py-3 text-base font-medium text-foreground/60 hover:bg-primary/5 hover:text-primary transition-colors"
-                >
-                  Alle Leistungen
-                </Link>
+              <div className="mt-1 flex flex-col gap-1">
                 {leistungsLinks.map((item) => (
                   <Link
                     key={item.href}
                     href={item.href}
                     onClick={() => setMobileOpen(false)}
-                    className="rounded-xl px-5 py-3 text-base font-medium text-foreground/60 hover:bg-primary/5 hover:text-primary transition-colors"
+                    className="w-full rounded-xl px-5 py-3 text-base font-medium text-center text-foreground/60 hover:bg-primary/5 hover:text-primary transition-colors"
                   >
                     {item.label}
                   </Link>
@@ -238,7 +228,7 @@ export function Header() {
               href={link.href}
               onClick={() => setMobileOpen(false)}
               className={cn(
-                "w-full max-w-xs rounded-2xl px-6 py-4 text-center text-xl font-semibold transition-colors text-foreground/70 hover:bg-primary/5 hover:text-primary",
+                "w-full rounded-2xl px-6 py-4 text-center text-xl font-semibold transition-colors text-foreground/70 hover:bg-primary/5 hover:text-primary",
                 isActive(link.href) && "text-primary bg-primary/5"
               )}
             >
@@ -248,13 +238,13 @@ export function Header() {
         </nav>
 
         {/* CTA Buttons */}
-        <div className="flex flex-col items-center gap-3 px-6 pb-16">
-          <Button asChild size="lg" className="w-full max-w-xs">
+        <div className="flex flex-col gap-3 px-6 pb-16">
+          <Button asChild size="lg" className="w-full bg-brand-green-cta text-white hover:bg-brand-green-cta-hover">
             <Link href="/kontakt" onClick={() => setMobileOpen(false)}>
               Kontakt aufnehmen
             </Link>
           </Button>
-          <Button asChild variant="outline" size="lg" className="w-full max-w-xs">
+          <Button asChild variant="outline" size="lg" className="w-full">
             <a href="tel:+4915168452004">
               <Phone className="mr-2 h-4 w-4" />
               Anrufen

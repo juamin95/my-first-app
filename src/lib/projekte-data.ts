@@ -33,6 +33,7 @@ export function filterProjekte(
   return projekte
 }
 
+/** @deprecated Statische Daten – Projekte werden jetzt aus Supabase geladen (projekte-service.ts) */
 export const projekte: Projekt[] = [
   {
     slug: "kindergarten-koeln-lindenthal",
@@ -46,7 +47,7 @@ export const projekte: Projekt[] = [
     images: [
       "/images/hero/luftaufnahme.webp",
       "/images/hero/terasse.jpg",
-      "/images/hero/garten.png",
+      "/images/hero/garten.jpg",
       "/images/hero/einfahrt.jpg",
     ],
     beschreibung: [
@@ -130,7 +131,7 @@ export const projekte: Projekt[] = [
     images: [
       "/images/hero/terasse.jpg",
       "/images/leistungen/naturstein.jpg",
-      "/images/hero/garten.png",
+      "/images/hero/garten.jpg",
     ],
     beschreibung: [
       "Für ein Einfamilienhaus in Köln-Sülz haben wir eine großzügige Terrasse mit hochwertigen Natursteinplatten realisiert. Die Terrasse wurde mit einer dezenten LED-Bodenbeleuchtung ausgestattet.",
@@ -183,7 +184,7 @@ export const projekte: Projekt[] = [
     images: [
       "/images/hero/einfahrt.jpg",
       "/images/hero/zaun.jpg",
-      "/images/leistungen/erdarbeiten.png",
+      "/images/leistungen/erdarbeiten.jpg",
     ],
     beschreibung: [
       "Die Eigentümer wünschten sich einen repräsentativen Vorgarten, der gleichzeitig pflegeleicht und modern wirkt. Die bestehende Einfahrt wurde komplett erneuert.",

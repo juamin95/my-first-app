@@ -30,3 +30,8 @@ paths:
 - Use environment variables for all credentials
 - Validate and sanitize all user input
 - Use parameterized queries (Supabase handles this)
+
+## Auth Best Practices (Supabase)
+- Use `window.location.href` for post-login redirect (not `router.push`)
+- Always verify `data.session` exists before redirecting
+- Always reset loading state in all code paths (success, error, finally)

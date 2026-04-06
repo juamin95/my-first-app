@@ -2,38 +2,27 @@ import { NextResponse } from "next/server"
 import { contactFormSchema } from "@/lib/contact-schema"
 import { createServerClient } from "@/lib/supabase-server"
 
-// Simple in-memory rate limiter: max 3 submissions per IP per 10 minutes
-const rateLimitMap = new Map<string, { count: number; resetAt: number }>()
 const RATE_LIMIT_MAX = 3
 const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000 // 10 minutes
 
-function checkRateLimit(ip: string): boolean {
-  const now = Date.now()
-  const entry = rateLimitMap.get(ip)
+/** Resolves client IP from multiple headers (Cloudflare > x-real-ip > x-forwarded-for) */
+function getIp(request: Request): string {
+  return (
+    request.headers.get("cf-connecting-ip") ??
+    request.headers.get("x-real-ip") ??
+    request.headers.get("x-forwarded-for")?.split(",")[0].trim() ??
+    "unknown"
+  )
+}
 
-  if (!entry || now > entry.resetAt) {
-    rateLimitMap.set(ip, { count: 1, resetAt: now + RATE_LIMIT_WINDOW_MS })
-    return true
-  }
-
-  if (entry.count >= RATE_LIMIT_MAX) return false
-
-  entry.count++
-  return true
+/** Strip HTML tags and trim whitespace to prevent stored XSS */
+function sanitize(str: string): string {
+  return str.replace(/<[^>]*>/g, "").trim()
 }
 
 export async function POST(request: Request) {
   try {
-    const ip =
-      request.headers.get("x-forwarded-for")?.split(",")[0].trim() ??
-      "unknown"
-
-    if (!checkRateLimit(ip)) {
-      return NextResponse.json(
-        { error: "Zu viele Anfragen. Bitte versuchen Sie es später erneut." },
-        { status: 429 }
-      )
-    }
+    const ip = getIp(request)
 
     const body = await request.json()
 
@@ -51,17 +40,33 @@ export async function POST(request: Request) {
     }
 
     const data = result.data
-
     const supabase = createServerClient()
+
+    // Supabase-based rate limiting — persistent across all serverless instances
+    const windowStart = new Date(Date.now() - RATE_LIMIT_WINDOW_MS).toISOString()
+    const { count } = await supabase
+      .from("leads")
+      .select("*", { count: "exact", head: true })
+      .eq("ip_address", ip)
+      .gte("created_at", windowStart)
+
+    if ((count ?? 0) >= RATE_LIMIT_MAX) {
+      return NextResponse.json(
+        { error: "Zu viele Anfragen. Bitte versuchen Sie es später erneut." },
+        { status: 429 }
+      )
+    }
+
     const { error } = await supabase.from("leads").insert({
-      vorname: data.vorname,
-      nachname: data.nachname,
-      email: data.email,
-      telefon: data.telefon,
+      vorname: sanitize(data.vorname),
+      nachname: sanitize(data.nachname),
+      email: sanitize(data.email),
+      telefon: sanitize(data.telefon),
       kundentyp: data.kundentyp,
-      leistungsart: data.leistungsart,
+      leistungsart: sanitize(data.leistungsart),
       projektumfang: data.projektumfang,
-      nachricht: data.nachricht,
+      nachricht: sanitize(data.nachricht),
+      ip_address: ip,
     })
 
     if (error) {

@@ -200,7 +200,7 @@ Keine neuen Pakete notwendig – alle benötigten Komponenten (NavigationMenu, S
 
 #### AC-5: Footer Inhalte
 - [x] Company name, phone, email, nav links, copyright, social media links all present
-- [ ] BUG: Address still MISSING from footer (See BUG-1)
+- [x] BUG: CLOSED (bewusste Entscheidung) – Adresse im Footer weggelassen, da Inhaber zu Kunden fährt und keine stationäre Anlaufstelle relevant ist.
 - [x] Impressum and Datenschutz links in footer bottom row
 - [x] Facebook and Instagram social icons with proper `rel="noopener noreferrer"`
 

@@ -15,14 +15,14 @@
     --secondary: 240 4.8% 95.9%;
     --secondary-foreground: 240 5.9% 10%;
     --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
+    --muted-foreground: 240 3.8% 32%;
     --accent: 240 4.8% 95.9%;
     --accent-foreground: 240 5.9% 10%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
     --border: 240 5.9% 90%;
     --input: 240 5.9% 90%;
-    --ring: 240 5.9% 10%;
+    --ring: 104 39% 28%;
     --radius: 0.5rem;
     --chart-1: 12 76% 61%;
     --chart-2: 173 58% 39%;
@@ -82,10 +82,47 @@
   body {
     @apply bg-background text-foreground;
   }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-serif);
+  }
+}
+
+/* ── Brand color tokens ─────────────────────────────────── */
+:root {
+  --brand-green-vivid: 96 47% 47%; /* #6db33f */
+}
+
+/* ── Section background tokens ─────────────────────────── */
+:root {
+  --section-white:       #FFFFFF;
+  --section-sage-light:  #eef6e8; /* = brand-green-light  */
+  --section-sage:        #ddebd5; /* = brand-green-muted  */
+  --section-beige-light: #f5f3ee; /* = brand-stone-light  */
+  --section-beige:       #ede9e2; /* = brand-stone-mid    */
+}
+
+/* ── Desktop section spacing ────────────────────────────── */
+/* Mobile: py-20 (5rem), Desktop lg+: py-36 (9rem) for more breathing room */
+@layer utilities {
+  .section-py {
+    @apply py-12 lg:py-36;
+  }
 }
 
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* ── Subtle dot texture for sage sections ──────────────── */
+.sage-texture {
+  --dot-texture: radial-gradient(circle, hsl(104 39% 28% / 0.055) 1px, transparent 1px);
+  background-image: var(--dot-texture);
+  background-size: 20px 20px;
+}
+
+/* ── Subtle inset shadow at section top edge ───────────── */
+.section-wave-top {
+  box-shadow: inset 0 6px 24px -4px rgba(58, 99, 43, 0.10);
+}
 
 @keyframes scroll-left {
   0% { transform: translateX(0); }
@@ -97,7 +134,16 @@
 }
 
 .animate-scroll-left-slow {
-  animation: scroll-left 36s linear infinite;
+  animation: scroll-left 55s linear infinite;
+}
+
+@keyframes scroll-bounce {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(6px); }
+}
+
+.animate-scroll-bounce {
+  animation: scroll-bounce 1.4s ease-in-out infinite;
 }
 
 
@@ -113,7 +159,8 @@
 
   .animate-bounce,
   .animate-scroll-left,
-  .animate-scroll-left-slow {
+  .animate-scroll-left-slow,
+  .animate-scroll-bounce {
     animation: none !important;
   }
 }

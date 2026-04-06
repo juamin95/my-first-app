@@ -1,7 +1,7 @@
 "use client"
 
 import { useRef } from "react"
-import { motion, useScroll, useTransform, type MotionValue } from "framer-motion"
+import { motion, useScroll, useTransform, useReducedMotion, type MotionValue } from "framer-motion"
 import Image from "next/image"
 
 type PhotoConfig = {
@@ -13,6 +13,7 @@ type PhotoConfig = {
   parallaxRange: [number, number]
   delay: number
   zIndex: number
+  hideOnMobile?: boolean
 }
 
 const photos: PhotoConfig[] = [
@@ -39,7 +40,7 @@ const photos: PhotoConfig[] = [
   {
     src: "/images/ueber-uns/team-collage.jpg",
     alt: "Das Grünschnitt-Team bei der Pause",
-    pos: "bottom-0 left-[4%]",
+    pos: "bottom-0 left-[21%] lg:left-[4%]",
     size: "w-[58%] aspect-[4/3]",
     rotate: 1.5,
     parallaxRange: [50, 10],
@@ -47,34 +48,37 @@ const photos: PhotoConfig[] = [
     zIndex: 4,
   },
   {
-    src: "/images/ueber-uns/heckenschnitt.jpg",
-    alt: "Professioneller Heckenschnitt auf der Leiter",
+    src: "/images/ueber-uns/collage-heckenschnitt-neu.jpg",
+    alt: "Professioneller Heckenschnitt von Grünschnitt by Amini",
     pos: "bottom-[8%] right-[1%]",
     size: "w-[40%] aspect-[3/4]",
     rotate: -2,
     parallaxRange: [35, -5],
     delay: 0.15,
     zIndex: 3,
+    hideOnMobile: true,
   },
 ]
 
 function PhotoCard({
   photo,
   scrollYProgress,
+  reducedMotion,
 }: {
   photo: PhotoConfig
   scrollYProgress: MotionValue<number>
+  reducedMotion: boolean
 }) {
-  const y = useTransform(scrollYProgress, [0, 1], photo.parallaxRange)
+  const y = useTransform(scrollYProgress, [0, 1], reducedMotion ? [0, 0] : photo.parallaxRange)
 
   return (
     <motion.div
-      className={`absolute ${photo.pos} ${photo.size} overflow-hidden rounded-2xl shadow-2xl`}
+      className={`absolute ${photo.pos} ${photo.size} overflow-hidden rounded-2xl shadow-2xl${photo.hideOnMobile ? " hidden lg:block" : ""}`}
       style={{ rotate: photo.rotate, y, zIndex: photo.zIndex }}
       initial={{ opacity: 0, scale: 0.88 }}
       whileInView={{ opacity: 1, scale: 1 }}
       viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration: 0.7, delay: photo.delay, ease: [0.25, 0.46, 0.45, 0.94] }}
+      transition={{ duration: reducedMotion ? 0 : 0.7, delay: reducedMotion ? 0 : photo.delay, ease: [0.25, 0.46, 0.45, 0.94] }}
     >
       {/* subtle white border frame */}
       <div className="absolute inset-0 z-10 rounded-2xl ring-2 ring-white/40 ring-inset pointer-events-none" />
@@ -91,6 +95,7 @@ function PhotoCard({
 
 export function UeberUnsCollage() {
   const containerRef = useRef<HTMLDivElement>(null)
+  const shouldReduce = useReducedMotion() ?? false
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -100,7 +105,7 @@ export function UeberUnsCollage() {
   return (
     <div ref={containerRef} className="relative h-[420px] w-full select-none sm:h-[500px] lg:h-[640px]">
       {photos.map((photo) => (
-        <PhotoCard key={photo.src} photo={photo} scrollYProgress={scrollYProgress} />
+        <PhotoCard key={photo.src} photo={photo} scrollYProgress={scrollYProgress} reducedMotion={shouldReduce} />
       ))}
     </div>
   )

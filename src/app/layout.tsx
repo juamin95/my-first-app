@@ -1,17 +1,52 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Spectral, Inter } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { WhatsAppButton } from "@/components/whatsapp-button";
 
-const inter = Inter({ subsets: ["latin"], display: "swap" });
+const spectral = Spectral({
+  subsets: ["latin"],
+  weight: ["400", "600", "700", "800"],
+  style: ["normal", "italic"],
+  display: "swap",
+  variable: "--font-serif",
+});
+
+const inter = Inter({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-sans",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://gruenschnitt-amini.de"),
-  title: "Grünschnitt by Marvin Amini | Garten- und Landschaftsbau",
+  title: {
+    default: "Garten- und Landschaftsbau Köln | Grünschnitt by Amini",
+    template: "%s | Grünschnitt by Amini",
+  },
   description:
-    "Ihr zuverlässiger Partner für professionellen Garten- und Landschaftsbau. Modern, erfahren und qualitätsbewusst.",
+    "Professioneller Garten- & Landschaftsbau in Köln. Gestaltung, Pflege und Bau für Gewerbe & Privat. Jetzt unverbindlich anfragen!",
+  openGraph: {
+    type: "website",
+    locale: "de_DE",
+    url: "https://gruenschnitt-amini.de",
+    siteName: "Grünschnitt by Marvin Amini",
+    title: "Garten- und Landschaftsbau Köln | Grünschnitt by Amini",
+    description:
+      "Professioneller Garten- & Landschaftsbau in Köln. Gestaltung, Pflege und Bau für Gewerbe & Privat. Jetzt unverbindlich anfragen!",
+    images: [{ url: "/images/leistungen/gewerbe-hero.jpg", width: 1200, height: 630, alt: "Grünschnitt by Marvin Amini – Garten- und Landschaftsbau Köln" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Garten- und Landschaftsbau Köln | Grünschnitt by Amini",
+    description:
+      "Professioneller Garten- & Landschaftsbau in Köln. Gestaltung, Pflege und Bau für Gewerbe & Privat. Jetzt unverbindlich anfragen!",
+    images: ["/images/leistungen/gewerbe-hero.jpg"],
+  },
+  alternates: {
+    canonical: "https://gruenschnitt-amini.de",
+  },
 };
 
 export default function RootLayout({
@@ -21,7 +56,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="de">
-      <body className={`${inter.className} antialiased flex min-h-screen flex-col`}>
+      <body className={`${spectral.variable} ${inter.variable} ${inter.className} antialiased flex min-h-screen flex-col`}>
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />

@@ -34,7 +34,7 @@ export function ProjektGalerie({ images, alt }: ProjektGalerieProps) {
 
   if (images.length === 0) {
     return (
-      <div className="flex aspect-video w-full items-center justify-center rounded-2xl bg-[#e8f0e4]">
+      <div className="flex aspect-video w-full items-center justify-center rounded-2xl bg-brand-image-placeholder">
         <ImageIcon className="h-16 w-16 text-primary/20" />
       </div>
     )

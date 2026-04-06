@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { motion, AnimatePresence } from "framer-motion"
 import { FolderOpen } from "lucide-react"
 import { FadeIn } from "@/components/ui/fade-in"
 import { ProjektCard, ProjektCardSkeleton } from "@/components/projekt-card"
@@ -37,7 +38,7 @@ export function ProjektFilter({ projekte }: ProjektFilterProps) {
               onClick={() => setActiveFilter(tab.value)}
               className={`rounded-full border px-4 py-2 text-sm font-medium transition-all duration-200 ${
                 activeFilter === tab.value
-                  ? "border-primary bg-primary text-primary-foreground shadow-sm"
+                  ? "border-brand-green-cta bg-brand-green-cta text-white shadow-sm"
                   : "border-border bg-white text-muted-foreground hover:border-primary/30 hover:text-foreground"
               }`}
             >
@@ -49,6 +50,14 @@ export function ProjektFilter({ projekte }: ProjektFilterProps) {
 
       {/* Results grid */}
       <div className="mt-10">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeFilter}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.15 }}
+          >
         {filtered.length > 0 ? (
           <div className="grid gap-7 sm:grid-cols-2 lg:grid-cols-3">
             {filtered.map((p, i) => (
@@ -58,7 +67,7 @@ export function ProjektFilter({ projekte }: ProjektFilterProps) {
         ) : (
           /* Empty state */
           <FadeIn>
-            <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-primary/20 bg-[#f4f7f2] px-6 py-16 text-center">
+            <div role="status" aria-label="Keine Projekte in dieser Kategorie" className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-primary/20 bg-primary/[0.02] px-6 py-16 text-center">
               <div className="flex h-14 w-14 items-center justify-center rounded-full bg-primary/10">
                 <FolderOpen className="h-7 w-7 text-primary/60" />
               </div>
@@ -79,6 +88,8 @@ export function ProjektFilter({ projekte }: ProjektFilterProps) {
             </div>
           </FadeIn>
         )}
+          </motion.div>
+        </AnimatePresence>
       </div>
     </>
   )

@@ -24,9 +24,7 @@ export const contactFormSchema = z.object({
     message: "Bitte wählen Sie Ihren Kundentyp",
   }),
   leistungsart: z.string().min(1, "Bitte wählen Sie eine Leistungsart"),
-  projektumfang: z.enum(["bis 2.000 €", "2.000 – 10.000 €", "über 10.000 €"], {
-    message: "Bitte wählen Sie den ungefähren Projektumfang",
-  }),
+  projektumfang: z.enum(["bis 2.000 €", "2.000 – 10.000 €", "über 10.000 €"]).optional(),
   nachricht: z.string().min(20, "Bitte beschreiben Sie Ihr Anliegen (mind. 20 Zeichen)"),
   datenschutz: z.boolean().refine((val) => val === true, {
     message: "Bitte stimmen Sie der Datenschutzerklärung zu",
@@ -37,7 +35,10 @@ export const contactFormSchema = z.object({
 export type ContactFormValues = z.infer<typeof contactFormSchema>
 
 export const leistungsarten = [
-  "Pflege",
-  "Bauprojekt",
+  "Gartengestaltung",
+  "Gartenpflege",
+  "Pflasterarbeiten",
+  "Terrassenbau",
+  "Heckenschnitt & Baumschnitt",
   "Sonstiges",
 ] as const

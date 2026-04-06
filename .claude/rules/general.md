@@ -1,19 +1,5 @@
 # General Project Rules
 
-## New Project Detection (MANDATORY)
-Before starting ANY work, check if the project has been initialized:
-1. Read `docs/PRD.md` - if it still contains placeholder text like "_Describe what you are building_", the project is NOT initialized
-2. Read `features/INDEX.md` - if the features table is empty, no features have been defined
-
-**If the project is not initialized:**
-- Do NOT write any code or create any components
-- Do NOT skip ahead to implementation
-- Instead, tell the user: "This project hasn't been set up yet. Let's start by defining what you want to build. Run `/requirements` with a description of your idea (e.g. `/requirements I want to build a task management app`)."
-- If the user already described their idea in the current message, run `/requirements` automatically with their description
-
-**If the project is initialized but the user requests a feature not yet in INDEX.md:**
-- Guide them to run `/requirements` first to create the feature spec before any implementation
-
 ## Feature Tracking
 - All features are tracked in `features/INDEX.md` - read it before starting any work
 - Feature specs live in `features/PROJ-X-feature-name.md`

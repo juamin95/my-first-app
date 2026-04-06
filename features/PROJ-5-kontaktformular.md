@@ -27,7 +27,7 @@
 - Als Besucher möchte ich einfach und schnell eine Anfrage stellen können, damit ich nicht lange suchen muss
 - Als gewerblicher Kunde möchte ich angeben können dass ich eine Hausverwaltung/Baufirma bin, damit ich eine passende Antwort bekomme
 - Als Besucher möchte ich nach dem Absenden eine Bestätigung sehen, damit ich weiß dass meine Anfrage angekommen ist
-- Als Inhaber möchte ich eine E-Mail-Benachrichtigung bei neuen Anfragen erhalten, damit ich schnell reagieren kann
+- Als Inhaber möchte ich über neue Anfragen informiert werden – dies erfolgt über Backend-Automatisierungsflows (außerhalb dieser Spec)
 - Als Inhaber möchte ich qualifizierte Leads von kleinen Anfragen unterscheiden können, damit ich Prioritäten setzen kann
 
 ## Acceptance Criteria
@@ -58,8 +58,7 @@
 
 ### Backend / Lead-Erfassung
 - [ ] Formular-Submit sendet Daten an eine Next.js API Route (`/api/contact`)
-- [ ] API Route sendet E-Mail-Benachrichtigung an Inhaber (via Resend oder ähnlich)
-- [ ] E-Mail enthält alle Formularfelder strukturiert
+- [x] CLOSED – E-Mail-Benachrichtigung erfolgt über Backend-Automatisierungsflows des Inhabers, nicht über die API Route
 - [ ] Leads werden in Supabase-Tabelle `leads` gespeichert (für spätere Auswertung)
 - [ ] Anti-Spam: Honeypot-Feld (verstecktes Feld, das Bots ausfüllen)
 
@@ -74,7 +73,7 @@
 ## Technical Requirements
 - Formular: react-hook-form + Zod-Validierung
 - API: Next.js Route Handler (`app/api/contact/route.ts`)
-- E-Mail: Resend (kostenlose Tier: 100 E-Mails/Tag)
+- E-Mail: Nicht Teil dieser Spec – Benachrichtigung läuft über Backend-Automatisierungsflows
 - Datenbank: Supabase Tabelle `leads` (id, created_at, vorname, nachname, email, telefon, kundentyp, leistungsart, nachricht, projektumfang, status)
 - DSGVO: Datenschutz-Checkbox verpflichtend, Daten nur so lange gespeichert wie nötig
 
@@ -99,19 +98,19 @@ _To be added by /architecture_
 - [x] Seiten-Hero: "Kontakt aufnehmen" heading present with introductory text
 - [ ] BUG-1: Hero subtext says "unverbindliches Angebot" but spec requires "Wir melden uns innerhalb von 24 Stunden" -- the 24h promise is missing from hero
 - [x] Neben dem Formular: Kontaktdaten (Telefon, E-Mail, Erreichbarkeit) in sidebar card
-- [ ] BUG-2: Kontaktdaten sidebar is MISSING "Adresse" -- spec requires physical address to be displayed
-- [ ] BUG-3: No Google Maps Embed or Adressbox present (spec says "Optional")
+- [x] BUG-2: CLOSED – bewusste Entscheidung: Adresse in Sidebar nicht nötig
+- [x] BUG-3: CLOSED (bewusste Entscheidung) – Google Maps / Adressbox nicht gewünscht, da Inhaber zu Kunden fährt
 
 #### AC-2: Formularfelder
 - [x] Pflichtfeld: Vorname + Nachname (Zod min(1) validation, red asterisk in UI)
 - [x] Pflichtfeld: E-Mail-Adresse (Zod .email() validation)
 - [x] Pflichtfeld: Telefonnummer (Zod regex validation for phone formats)
 - [x] Pflichtfeld: Kundentyp (RadioGroup with "Privatkunde" / "Gewerblich")
-- [ ] BUG-4: Kundentyp "Gewerblich" label is missing the clarifying description "(Hausverwaltung, Baufirma, etc.)" -- spec requires it so target users can identify themselves
+- [x] BUG-4: CLOSED – bewusste Entscheidung: "Gewerblich" ohne Zusatz bleibt
 - [ ] BUG-5: Art der Anfrage (Leistungsart) is implemented as RadioGroup but spec requires a Dropdown/Select
-- [ ] BUG-6: Leistungsarten has only 2 options ("Pflege", "Bauprojekt") but spec requires 5: Gartengestaltung, Gartenpflege, Pflasterarbeiten, Terrassenbau, Sonstiges
+- [x] BUG-6: CLOSED – bewusste Entscheidung: aktuelle Optionen bleiben
 - [x] FIXED (was BUG-7): Nachricht now has min(20) Zod validation and shows required asterisk in UI
-- [ ] BUG-8: "Projektumfang" optional field is completely MISSING from the form, schema, and API -- spec requires a dropdown with budget ranges
+- [x] BUG-8: FIXED – Projektumfang-Feld (3 Budget-Stufen) in Formular, Schema und API ergänzt
 - [x] Datenschutz-Checkbox present and required (refine val === true)
 - [x] Absenden-Button: "Anfrage senden" with Send icon
 
@@ -119,18 +118,18 @@ _To be added by /architecture_
 - [x] Client-seitige Validierung (Zod + react-hook-form) with inline error messages via FormMessage
 - [x] Formular cannot be submitted without filling all required fields (multi-step validation via form.trigger per step)
 - [x] Nach Absenden: Erfolgsmeldung visible ("Vielen Dank fuer Ihre Anfrage!")
-- [ ] BUG-9: Success message text says "Vielen Dank fuer Ihre Anfrage!" but spec requires "Vielen Dank! Wir melden uns in Kuerze."
+- [x] BUG-9: CLOSED – bewusste Entscheidung: Erfolgstext bleibt so
 - [x] Formular replaced by success message after submission (motion animated)
 - [x] Fehlerstatus shows "Es ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut." in alert banner
 - [x] Loading state disables submit button with Loader2 spinner ("Wird gesendet...")
 
 #### AC-4: Backend / Lead-Erfassung
 - [x] Formular-Submit sends data to `/api/contact` via POST with JSON body
-- [ ] BUG-10: API Route does NOT send E-Mail-Benachrichtigung -- no Resend integration exists. Noted as "pending" in implementation notes but spec lists it as acceptance criterion
-- [ ] BUG-11: API Route does NOT store `projektumfang` in database (field missing from schema, form, and insert)
+- [x] BUG-10: CLOSED (bewusste Entscheidung) – E-Mail-Benachrichtigung wird nicht über die Next.js API implementiert. Wird später durch Supabase-Backend-Trigger (Edge Function oder Webhook) ausgelöst. Kein Resend-Integration geplant auf Frontend-Ebene.
+- [x] BUG-11: FIXED – projektumfang wird in Supabase leads-Tabelle gespeichert (Spalte per Migration ergänzt)
 - [x] Leads are inserted into Supabase `leads` table via supabase.from("leads").insert()
 - [x] Anti-Spam: Honeypot field present (hidden "website" field, positioned off-screen)
-- [ ] BUG-12: Honeypot implementation is flawed -- Zod schema has `z.string().max(0).optional()` which rejects non-empty strings with a 400 error containing field error details. Bots that fill the honeypot receive a validation error revealing it is a trap, instead of a silent 200 success
+- [x] BUG-12: FIXED – Honeypot-Check vor Zod-Validierung verschoben, Schema auf `z.string().optional()` geändert
 
 ### Edge Cases Status
 
@@ -139,7 +138,7 @@ _To be added by /architecture_
 - [x] Client-side: Zod validation shows "Bitte geben Sie eine gueltige E-Mail-Adresse ein"
 
 #### EC-2: E-Mail-Versand fehlschlaegt
-- [ ] NOT TESTABLE: E-Mail sending is not implemented yet (see BUG-10)
+- [x] CLOSED (bewusste Entscheidung) – E-Mail-Versand nicht auf dieser Ebene, wird durch Backend-Trigger erledigt
 
 #### EC-3: Mehrfach-Submit
 - [x] Submit button is disabled during submission (loading state with Loader2 spinner)
@@ -163,17 +162,17 @@ _To be added by /architecture_
 - [x] Server-side Zod validation rejects invalid/malformed data with 400
 - [x] Enum validation prevents invalid kundentyp values (only "privat" or "gewerblich")
 - [x] FIXED (was BUG-13): Rate limiting now implemented -- max 3 requests per IP per 10-minute window, returns 429 on excess
-- [ ] BUG-13a (SECURITY): Rate limiter is in-memory only (`Map`). It resets on every server restart/redeployment and does NOT work across multiple serverless function instances on Vercel. An attacker can bypass by rotating IP headers or waiting for cold starts
-- [ ] BUG-13b (SECURITY): Rate limiter relies on `x-forwarded-for` header which can be trivially spoofed by an attacker to bypass rate limiting entirely. Each request can use a different forged IP
-- [ ] BUG-14 (SECURITY): No input sanitization/escaping before database insertion -- XSS payloads like `<script>alert(1)</script>` are accepted and stored directly in Supabase. If PROJ-7 Admin interface renders these without escaping, stored XSS is possible
-- [ ] BUG-15 (SECURITY): The Supabase client in `src/lib/supabase.ts` uses the anon key (`NEXT_PUBLIC_SUPABASE_ANON_KEY`) for server-side API route inserts. Server-side operations should use a service role key (without NEXT_PUBLIC_ prefix) for proper privilege separation. RLS policies on the `leads` table must be verified
+- [x] BUG-13a: FIXED – Rate-Limiter auf Supabase umgestellt (persistent, funktioniert über alle Vercel-Instanzen)
+- [x] BUG-13b: FIXED – IP-Auflösung priorisiert cf-connecting-ip > x-real-ip > x-forwarded-for
+- [x] BUG-14: FIXED – `sanitize()` entfernt HTML-Tags aus allen Freitext-Feldern vor dem DB-Insert
+- [x] BUG-15: FIXED – API Route nutzt `createServerClient()` mit `SUPABASE_SERVICE_ROLE_KEY` (server-only)
 - [x] .env.local is in .gitignore (via `.env*.local` pattern)
 - [x] .env.local.example exists with dummy values
 - [x] No Supabase credentials exposed in client-side rendered HTML
 - [ ] BUG-16 (SECURITY): No Content-Security-Policy header configured in next.config.ts -- leaves the site vulnerable to XSS if user content is ever rendered
 - [x] Datenschutz checkbox validation works server-side (datenschutz=false returns 400)
-- [ ] BUG-17: Zod server-side validation errors for missing fields use English text ("Invalid input: expected string, received undefined") instead of German. This leaks implementation details and provides inconsistent UX
-- [ ] BUG-18 (SECURITY): API returns full Zod error details in the 400 response via `result.error.flatten()`. This exposes internal schema structure to attackers (field names, validation rules, types). Should return only user-friendly German messages
+- [x] BUG-17: FIXED – API gibt nur generische deutsche Fehlermeldung zurück ("Ungültige Formulardaten")
+- [x] BUG-18: FIXED – Keine Zod-Details in der API-Response, kein Schema-Leak
 
 ### Cross-Browser Testing
 - Note: Automated cross-browser testing was not possible in this environment. The following is based on code review of the component implementations.
@@ -355,7 +354,7 @@ _To be added by /architecture_
 - **Blocking bugs (must fix before deployment):**
   - BUG-6 (High): Only 2 Leistungsarten instead of 5 -- core business offering incomplete
   - BUG-8/BUG-11 (High): Projektumfang field missing entirely -- critical for lead qualification per PRD
-  - BUG-10 (High): No email notification -- owner will not know about new leads
+  - ~~BUG-10~~: CLOSED – wird durch Backend-Trigger gelöst
   - BUG-12 (Medium): Honeypot reveals itself to bots
   - BUG-2 (Medium): Address missing from sidebar
   - BUG-4 (Medium): Gewerblich label missing description
