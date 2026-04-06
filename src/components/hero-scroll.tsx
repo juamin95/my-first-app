@@ -1,5 +1,6 @@
 "use client"
 
+import { useState } from "react"
 import Link from "next/link"
 import { Phone, Star } from "lucide-react"
 import { motion, useReducedMotion } from "framer-motion"
@@ -7,6 +8,7 @@ import { Button } from "@/components/ui/button"
 
 export function HeroScroll() {
   const shouldReduce = useReducedMotion()
+  const [videoReady, setVideoReady] = useState(false)
 
   // Returns motion props or empty object (immediate visibility) when reduced motion is preferred
   const reveal = (delay: number) =>
@@ -27,8 +29,8 @@ export function HeroScroll() {
         loop
         playsInline
         aria-hidden="true"
-        poster="/images/hero/titelbild.jpg"
-        className="absolute inset-0 h-full w-full object-cover"
+        onCanPlay={() => setVideoReady(true)}
+        className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ${videoReady ? "opacity-100" : "opacity-0"}`}
       >
         <source src="/images/hero-bg.mp4" type="video/mp4" />
       </video>
