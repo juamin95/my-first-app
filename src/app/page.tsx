@@ -42,7 +42,7 @@ export default async function Home() {
       {/* ── PARTNER BANNER ───────────────────────────────────── */}
       <section className="relative -mt-8 overflow-hidden rounded-t-[2.5rem] bg-white py-10" aria-label="Partner">
         <div className="mb-6 text-center">
-          <span className="text-xs font-semibold uppercase tracking-widest text-muted-foreground/60">
+          <span className="text-xs font-semibold uppercase tracking-widest text-muted-foreground/80">
             Unsere Partner &amp; Netzwerk
           </span>
         </div>

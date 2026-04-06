@@ -185,7 +185,7 @@ export function PflegeAboSection({
         </div>
       </div>
 
-      <p className="mt-4 px-4 text-center text-xs text-muted-foreground/60 sm:px-6 lg:hidden">
+      <p className="mt-4 px-4 text-center text-xs text-muted-foreground/80 sm:px-6 lg:hidden">
         Nach rechts wischen für mehr Pakete →
       </p>
 

@@ -29,6 +29,7 @@ export function HeroScroll() {
         loop
         playsInline
         aria-hidden="true"
+        poster="/images/hero/rollrasen-compressed.jpg"
         onCanPlay={() => setVideoReady(true)}
         className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ${videoReady ? "opacity-100" : "opacity-0"}`}
       >
@@ -97,6 +98,8 @@ export function HeroScroll() {
           <img
             src="/logos/ihk-koeln.svg"
             alt="IHK Köln Mitglied"
+            width={88}
+            height={44}
             className="h-11 w-auto opacity-70"
           />
           <div className="h-px w-12 bg-white/20" />
