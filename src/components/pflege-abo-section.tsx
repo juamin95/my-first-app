@@ -116,7 +116,7 @@ export function PflegeAboSection({
 
       {/* Pakete – mobile: horizontal scroll, desktop: 3-col grid */}
       <div className="no-scrollbar snap-x snap-mandatory overflow-x-auto scroll-smooth scroll-pl-4 sm:scroll-pl-6 lg:overflow-visible lg:scroll-pl-0">
-        <div className="flex w-max gap-5 pb-4 pl-4 pr-4 sm:pl-6 sm:pr-6 lg:mx-auto lg:grid lg:w-full lg:max-w-7xl lg:grid-cols-3 lg:gap-6 lg:pb-0 lg:px-8">
+        <div className="flex w-max gap-5 pb-4 pl-4 pr-4 pt-6 sm:pl-6 sm:pr-6 lg:mx-auto lg:grid lg:w-full lg:max-w-7xl lg:grid-cols-3 lg:gap-6 lg:pb-0 lg:pt-6 lg:px-8">
           {pakete.map((paket) => {
             const Icon = paket.icon
             return (

@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { motion, AnimatePresence } from "framer-motion"
 import { Send, CheckCircle2, AlertCircle, Loader2, ChevronRight, ChevronLeft } from "lucide-react"
 
-import { contactFormSchema, type ContactFormValues, leistungsarten, projektumfangOptionen } from "@/lib/contact-schema"
+import { contactFormSchema, type ContactFormValues, leistungsarten } from "@/lib/contact-schema"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
@@ -32,7 +32,7 @@ const STEPS = [
 
 const STEP_FIELDS: (keyof ContactFormValues)[][] = [
   ["vorname", "nachname", "email", "telefon"],
-  ["kundentyp", "leistungsart", "projektumfang"],
+  ["kundentyp", "leistungsart"],
   ["nachricht", "datenschutz"],
 ]
 
@@ -50,7 +50,6 @@ export function ContactForm() {
       telefon: "",
       kundentyp: undefined,
       leistungsart: "",
-      projektumfang: undefined,
       nachricht: "",
       datenschutz: false,
       website: "",
@@ -171,7 +170,7 @@ export function ContactForm() {
         </div>
 
         {/* Step content */}
-        <div className="overflow-hidden">
+        <div>
           <AnimatePresence mode="wait" custom={direction}>
             <motion.div
               key={step}
@@ -257,11 +256,12 @@ export function ContactForm() {
                           <RadioGroup
                             onValueChange={field.onChange}
                             value={field.value}
-                            className="grid grid-cols-2 gap-3"
+                            className="grid grid-cols-1 gap-3"
                           >
                             {[
-                              { value: "privat", label: "Privatkunde" },
-                              { value: "gewerblich", label: "Gewerblich (Hausverwaltung, Firma, ...)" },
+                              { value: "privat", label: "Privat" },
+                              { value: "gewerblich", label: "Gewerblich" },
+                              { value: "oeffentlich", label: "Öffentlich" },
                             ].map((opt) => (
                               <label
                                 key={opt.value}
@@ -293,7 +293,7 @@ export function ContactForm() {
                           <RadioGroup
                             onValueChange={field.onChange}
                             value={field.value}
-                            className="grid grid-cols-2 sm:grid-cols-3 gap-3"
+                            className="grid grid-cols-1 gap-3"
                           >
                             {leistungsarten.map((art) => (
                               <label
@@ -308,39 +308,6 @@ export function ContactForm() {
                               >
                                 <RadioGroupItem value={art} id={`leistung-${art}`} />
                                 <span className="text-sm font-medium">{art}</span>
-                              </label>
-                            ))}
-                          </RadioGroup>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="projektumfang"
-                    render={({ field }) => (
-                      <FormItem className="space-y-3">
-                        <FormLabel>Ungefährer Projektumfang <span className="text-muted-foreground text-xs font-normal">(optional)</span></FormLabel>
-                        <FormControl>
-                          <RadioGroup
-                            onValueChange={field.onChange}
-                            value={field.value}
-                            className="grid grid-cols-3 gap-3"
-                          >
-                            {projektumfangOptionen.map((opt) => (
-                              <label
-                                key={opt}
-                                htmlFor={`umfang-${opt}`}
-                                className={cn(
-                                  "flex cursor-pointer items-center gap-3 rounded-xl border-2 px-4 py-3 transition-all duration-200",
-                                  field.value === opt
-                                    ? "border-primary bg-primary/5"
-                                    : "border-border hover:border-primary/40"
-                                )}
-                              >
-                                <RadioGroupItem value={opt} id={`umfang-${opt}`} />
-                                <span className="text-sm font-medium">{opt}</span>
                               </label>
                             ))}
                           </RadioGroup>

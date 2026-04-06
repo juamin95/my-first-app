@@ -1,11 +1,5 @@
 import { z } from "zod"
 
-export const projektumfangOptionen = [
-  "bis 2.000 €",
-  "2.000 – 10.000 €",
-  "über 10.000 €",
-] as const
-
 export const contactFormSchema = z.object({
   vorname: z.string().min(1, "Bitte geben Sie Ihren Vornamen ein"),
   nachname: z.string().min(1, "Bitte geben Sie Ihren Nachnamen ein"),
@@ -20,11 +14,10 @@ export const contactFormSchema = z.object({
       /^[+]?[\d\s\-/()]{6,20}$/,
       "Bitte geben Sie eine gültige Telefonnummer ein"
     ),
-  kundentyp: z.enum(["privat", "gewerblich"], {
+  kundentyp: z.enum(["privat", "gewerblich", "oeffentlich"], {
     message: "Bitte wählen Sie Ihren Kundentyp",
   }),
   leistungsart: z.string().min(1, "Bitte wählen Sie eine Leistungsart"),
-  projektumfang: z.enum(["bis 2.000 €", "2.000 – 10.000 €", "über 10.000 €"]).optional(),
   nachricht: z.string().min(20, "Bitte beschreiben Sie Ihr Anliegen (mind. 20 Zeichen)"),
   datenschutz: z.boolean().refine((val) => val === true, {
     message: "Bitte stimmen Sie der Datenschutzerklärung zu",
@@ -35,10 +28,6 @@ export const contactFormSchema = z.object({
 export type ContactFormValues = z.infer<typeof contactFormSchema>
 
 export const leistungsarten = [
-  "Gartengestaltung",
+  "Gestaltung",
   "Gartenpflege",
-  "Pflasterarbeiten",
-  "Terrassenbau",
-  "Heckenschnitt & Baumschnitt",
-  "Sonstiges",
 ] as const

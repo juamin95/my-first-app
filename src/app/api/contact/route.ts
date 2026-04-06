@@ -64,7 +64,6 @@ export async function POST(request: Request) {
       telefon: sanitize(data.telefon),
       kundentyp: data.kundentyp,
       leistungsart: sanitize(data.leistungsart),
-      projektumfang: data.projektumfang,
       nachricht: sanitize(data.nachricht),
       ip_address: ip,
     })

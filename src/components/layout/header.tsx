@@ -143,7 +143,7 @@ export function Header() {
 
             {/* Desktop CTA + Mobile Hamburger */}
             <div className="flex items-center gap-3">
-              <Button asChild size="sm" className="hidden sm:inline-flex">
+              <Button asChild size="sm" className="hidden sm:inline-flex bg-brand-green-cta text-white hover:bg-brand-green-cta-hover">
                 <Link href="/kontakt">Kontakt aufnehmen</Link>
               </Button>
 
