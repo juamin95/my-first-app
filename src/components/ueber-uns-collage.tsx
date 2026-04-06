@@ -40,8 +40,8 @@ const photos: PhotoConfig[] = [
   {
     src: "/images/ueber-uns/team-collage.jpg",
     alt: "Das Grünschnitt-Team bei der Pause",
-    pos: "bottom-0 left-[16%] lg:left-[4%]",
-    size: "w-[56%] aspect-[4/3]",
+    pos: "bottom-0 left-[10%] lg:left-[4%]",
+    size: "w-[62%] aspect-[4/3]",
     rotate: 1.5,
     parallaxRange: [50, 10],
     delay: 0.2,
@@ -103,7 +103,7 @@ export function UeberUnsCollage() {
   })
 
   return (
-    <div ref={containerRef} className="relative h-[460px] w-full select-none sm:h-[500px] lg:h-[640px]">
+    <div ref={containerRef} className="relative h-[440px] w-full select-none sm:h-[500px] lg:h-[640px]">
       {photos.map((photo) => (
         <PhotoCard key={photo.src} photo={photo} scrollYProgress={scrollYProgress} reducedMotion={shouldReduce} />
       ))}
