@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import Image from "next/image"
 import Link from "next/link"
 import { Phone, Star } from "lucide-react"
 import { motion, useReducedMotion } from "framer-motion"
@@ -22,16 +23,25 @@ export function HeroScroll() {
 
   return (
     <div className="relative h-[calc(100dvh+2rem)] overflow-hidden bg-[#1a2e1a]">
-      {/* Background video */}
+      {/* Mobile: static image (fast LCP, no video overhead) */}
+      <Image
+        src="/images/hero/luftaufnahme.webp"
+        alt=""
+        fill
+        priority
+        className="object-cover md:hidden"
+        sizes="100vw"
+      />
+
+      {/* Desktop: background video */}
       <video
         autoPlay
         muted
         loop
         playsInline
         aria-hidden="true"
-        poster="/images/hero/rollrasen-compressed.jpg"
         onCanPlay={() => setVideoReady(true)}
-        className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ${videoReady ? "opacity-100" : "opacity-0"}`}
+        className={`absolute inset-0 hidden h-full w-full object-cover transition-opacity duration-700 md:block ${videoReady ? "opacity-100" : "opacity-0"}`}
       >
         <source src="/images/hero-bg.mp4" type="video/mp4" />
       </video>
