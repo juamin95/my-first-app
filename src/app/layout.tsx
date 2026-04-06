@@ -4,6 +4,7 @@ import "./globals.css";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { WhatsAppButton } from "@/components/whatsapp-button";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const spectral = Spectral({
   subsets: ["latin"],
@@ -61,6 +62,7 @@ export default function RootLayout({
         <main className="flex-1">{children}</main>
         <Footer />
         <WhatsAppButton />
+        <SpeedInsights />
       </body>
     </html>
   );
