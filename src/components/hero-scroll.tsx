@@ -102,7 +102,7 @@ export function HeroScroll() {
       </div>
 
       {/* Scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-scroll-bounce">
+      <div className="absolute bottom-8 left-0 right-0 flex flex-col items-center justify-center gap-2 animate-scroll-bounce">
         <span className="text-xs font-medium text-white/60 tracking-widest uppercase">Scrollen</span>
         <svg className="h-5 w-5 text-white/50" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
