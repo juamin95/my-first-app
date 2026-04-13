@@ -136,8 +136,8 @@ export default async function PrivatLeistungenPage() {
           <div className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 sm:pb-20 lg:px-8">
             <div className="relative aspect-[4/3] overflow-hidden rounded-2xl shadow-lg sm:aspect-[16/7]">
               <Image
-                src="/images/leistungen/privat-einstieg.png"
-                alt="Gepflegter Privatgarten von Grünschnitt by Amini"
+                src="/images/leistungen/privat-einstieg.jpg"
+                alt="Gestalteter Privatgarten mit Pool, Rollrasen und Bepflanzung von Grünschnitt by Amini"
                 fill
                 className="object-cover"
                 sizes="(max-width: 768px) 100vw, (max-width: 1280px) 90vw, 1280px"
