@@ -51,7 +51,7 @@ export default function DatenschutzPage() {
             <p className="mt-2">
               Marvin Marcel Amini<br />
               Garten- und Landschaftsbau<br />
-              Farnweg 4<br />
+              In der Rather Burg 21<br />
               51107 Köln<br />
               Telefon: <a href="tel:+4915168452004" className="text-primary hover:underline">015168452004</a><br />
               E-Mail: <a href="mailto:info@gruenschnitt-amini.de" className="text-primary hover:underline">info@gruenschnitt-amini.de</a>
