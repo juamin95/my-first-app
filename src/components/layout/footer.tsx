@@ -66,7 +66,7 @@ export function Footer() {
             <div className="mt-4 flex flex-col gap-3">
               <div className="flex items-start gap-2 text-sm text-muted-foreground">
                 <MapPin className="h-4 w-4 shrink-0 mt-0.5" aria-hidden="true" />
-                <span>In der Rather Burg 21<br />51107 Köln</span>
+                <span>An der Rather Burg 21<br />51107 Köln</span>
               </div>
               <a
                 href="tel:+4915168452004"

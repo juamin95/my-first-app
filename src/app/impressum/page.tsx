@@ -17,7 +17,7 @@ export default function ImpressumPage() {
             <p className="mt-2">
               Marvin Marcel Amini<br />
               Garten- und Landschaftsbau<br />
-              In der Rather Burg 21<br />
+              An der Rather Burg 21<br />
               51107 Köln
             </p>
           </section>
