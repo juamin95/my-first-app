@@ -64,7 +64,9 @@ export async function POST(request: Request) {
       telefon: sanitize(data.telefon),
       kundentyp: data.kundentyp,
       leistungsart: sanitize(data.leistungsart),
+      adresse: data.adresse ? sanitize(data.adresse) : null,
       nachricht: sanitize(data.nachricht),
+      bilder_urls: data.bilder_urls ?? null,
       ip_address: ip,
     })
 

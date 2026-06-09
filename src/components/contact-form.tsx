@@ -1,10 +1,11 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useRef } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { motion, AnimatePresence } from "framer-motion"
-import { Send, CheckCircle2, AlertCircle, Loader2, ChevronRight, ChevronLeft } from "lucide-react"
+import { Send, CheckCircle2, AlertCircle, Loader2, ChevronRight, ChevronLeft, ImageIcon, X } from "lucide-react"
+import { supabase } from "@/lib/supabase"
 
 import { contactFormSchema, type ContactFormValues, leistungsarten } from "@/lib/contact-schema"
 import { Button } from "@/components/ui/button"
@@ -24,6 +25,14 @@ import { cn } from "@/lib/utils"
 
 type FormStatus = "idle" | "submitting" | "success" | "error"
 
+interface UploadedFile {
+  file: File
+  previewUrl: string
+  storagePath: string | null
+  uploading: boolean
+  error: boolean
+}
+
 const STEPS = [
   { label: "Kontakt" },
   { label: "Anliegen" },
@@ -40,6 +49,9 @@ export function ContactForm() {
   const [step, setStep] = useState(0)
   const [direction, setDirection] = useState(1)
   const [status, setStatus] = useState<FormStatus>("idle")
+  const [uploadedFiles, setUploadedFiles] = useState<UploadedFile[]>([])
+  const [isDragging, setIsDragging] = useState(false)
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
   const form = useForm<ContactFormValues>({
     resolver: zodResolver(contactFormSchema),
@@ -48,14 +60,71 @@ export function ContactForm() {
       nachname: "",
       email: "",
       telefon: "",
+      adresse: "",
       kundentyp: undefined,
       leistungsart: "",
       nachricht: "",
+      bilder_urls: [],
       datenschutz: false,
       website: "",
     },
     mode: "onTouched",
   })
+
+  async function handleFiles(files: FileList | File[]) {
+    const arr = Array.from(files)
+    const remaining = 5 - uploadedFiles.length
+    const toProcess = arr.slice(0, remaining)
+
+    const newEntries: UploadedFile[] = toProcess
+      .filter((f) => f.type.startsWith("image/") && f.size <= 5 * 1024 * 1024)
+      .map((f) => ({
+        file: f,
+        previewUrl: URL.createObjectURL(f),
+        storagePath: null,
+        uploading: true,
+        error: false,
+      }))
+
+    if (newEntries.length === 0) return
+
+    setUploadedFiles((prev) => {
+      const updated = [...prev, ...newEntries]
+      form.setValue("bilder_urls", updated.filter((f) => f.storagePath).map((f) => f.storagePath!))
+      return updated
+    })
+
+    const startIndex = uploadedFiles.length
+    await Promise.all(
+      newEntries.map(async (entry, i) => {
+        const idx = startIndex + i
+        const ext = entry.file.name.split(".").pop() ?? "jpg"
+        const path = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`
+        const { data, error } = await supabase.storage
+          .from("lead-attachments")
+          .upload(path, entry.file, { upsert: false })
+
+        setUploadedFiles((prev) => {
+          const updated = prev.map((f, fi) =>
+            fi === idx
+              ? { ...f, uploading: false, storagePath: error ? null : data!.path, error: !!error }
+              : f
+          )
+          form.setValue("bilder_urls", updated.filter((f) => f.storagePath).map((f) => f.storagePath!))
+          return updated
+        })
+      })
+    )
+  }
+
+  function removeFile(index: number) {
+    setUploadedFiles((prev) => {
+      URL.revokeObjectURL(prev[index].previewUrl)
+      const updated = prev.filter((_, i) => i !== index)
+      form.setValue("bilder_urls", updated.filter((f) => f.storagePath).map((f) => f.storagePath!))
+      return updated
+    })
+  }
 
   async function goNext() {
     const valid = await form.trigger(STEP_FIELDS[step])
@@ -85,6 +154,8 @@ export function ContactForm() {
       setStatus("success")
       form.reset()
       setStep(0)
+      uploadedFiles.forEach((f) => URL.revokeObjectURL(f.previewUrl))
+      setUploadedFiles([])
     } catch {
       setStatus("error")
     }
@@ -240,6 +311,19 @@ export function ContactForm() {
                       )}
                     />
                   </div>
+                  <FormField
+                    control={form.control}
+                    name="adresse"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Projektadresse <span className="text-muted-foreground font-normal">(optional)</span></FormLabel>
+                        <FormControl>
+                          <Input placeholder="Musterstraße 12, 51107 Köln" autoComplete="street-address" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
                 </>
               )}
 
@@ -339,6 +423,75 @@ export function ContactForm() {
                       </FormItem>
                     )}
                   />
+                  {/* Image Upload */}
+                  <div className="space-y-3">
+                    <p className="text-sm font-medium leading-none">
+                      Bilder anhängen{" "}
+                      <span className="font-normal text-muted-foreground">(optional, max. 5)</span>
+                    </p>
+                    {uploadedFiles.length < 5 && (
+                      <div
+                        role="button"
+                        tabIndex={0}
+                        onClick={() => fileInputRef.current?.click()}
+                        onKeyDown={(e) => e.key === "Enter" && fileInputRef.current?.click()}
+                        onDragOver={(e) => { e.preventDefault(); setIsDragging(true) }}
+                        onDragLeave={() => setIsDragging(false)}
+                        onDrop={(e) => { e.preventDefault(); setIsDragging(false); handleFiles(e.dataTransfer.files) }}
+                        className={cn(
+                          "flex cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed p-6 text-center transition-colors outline-none focus-visible:ring-2 focus-visible:ring-primary",
+                          isDragging
+                            ? "border-primary bg-primary/5"
+                            : "border-muted-foreground/25 hover:border-primary/40 hover:bg-primary/[0.02]"
+                        )}
+                      >
+                        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10">
+                          <ImageIcon className="h-5 w-5 text-primary" />
+                        </div>
+                        <div>
+                          <p className="text-sm font-medium">Fotos hier ablegen oder klicken</p>
+                          <p className="text-xs text-muted-foreground">JPG, PNG, WebP · max. 5 MB pro Bild</p>
+                        </div>
+                        <input
+                          ref={fileInputRef}
+                          type="file"
+                          accept="image/*"
+                          multiple
+                          className="hidden"
+                          onChange={(e) => e.target.files && handleFiles(e.target.files)}
+                        />
+                      </div>
+                    )}
+                    {uploadedFiles.length > 0 && (
+                      <div className="grid grid-cols-3 gap-2 sm:grid-cols-5">
+                        {uploadedFiles.map((f, i) => (
+                          <div key={i} className="relative aspect-square overflow-hidden rounded-lg border bg-muted">
+                            {f.uploading ? (
+                              <div className="flex h-full items-center justify-center">
+                                <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+                              </div>
+                            ) : f.error ? (
+                              <div className="flex h-full items-center justify-center p-1">
+                                <p className="text-xs text-destructive text-center">Fehler</p>
+                              </div>
+                            ) : (
+                              // eslint-disable-next-line @next/next/no-img-element
+                              <img src={f.previewUrl} alt="" className="h-full w-full object-cover" />
+                            )}
+                            <button
+                              type="button"
+                              onClick={() => removeFile(i)}
+                              className="absolute right-1 top-1 flex h-5 w-5 items-center justify-center rounded-full bg-black/60 text-white hover:bg-black/80 transition-colors"
+                              aria-label="Bild entfernen"
+                            >
+                              <X className="h-3 w-3" />
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+
                   <FormField
                     control={form.control}
                     name="datenschutz"

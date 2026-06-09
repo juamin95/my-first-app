@@ -18,7 +18,9 @@ export const contactFormSchema = z.object({
     message: "Bitte wählen Sie Ihren Kundentyp",
   }),
   leistungsart: z.string().min(1, "Bitte wählen Sie eine Leistungsart"),
+  adresse: z.string().optional(),
   nachricht: z.string().min(20, "Bitte beschreiben Sie Ihr Anliegen (mind. 20 Zeichen)"),
+  bilder_urls: z.array(z.string()).optional(),
   datenschutz: z.boolean().refine((val) => val === true, {
     message: "Bitte stimmen Sie der Datenschutzerklärung zu",
   }),
