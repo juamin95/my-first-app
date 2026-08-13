@@ -70,7 +70,7 @@ function LeistungsCard({ bereich }: { bereich: Leistung }) {
             <ArrowRight className="h-6 w-6 text-white" />
           </div>
         </div>
-        <div className="absolute bottom-3 left-4 flex items-center gap-1.5 rounded-full bg-white/20 px-3 py-1 backdrop-blur-sm">
+        <div className="absolute bottom-3 left-4 flex items-center gap-1.5 rounded-full bg-black/55 px-3 py-1 backdrop-blur-sm">
           <Icon className="h-3.5 w-3.5 text-white" />
           <span className="text-xs font-semibold text-white">{bereich.badge}</span>
         </div>

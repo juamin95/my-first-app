@@ -19,7 +19,7 @@ export function ReviewCard({ name, tag, text, rating }: ReviewCardProps) {
     <div className="flex h-full flex-col rounded-2xl border border-primary/10 bg-white/60 p-6 shadow-sm backdrop-blur-sm">
       {/* Tag */}
       <span className={`mb-4 inline-flex w-fit items-center rounded-full px-2.5 py-0.5 text-xs font-semibold ${
-        tag === "Gewerblich" ? "bg-primary/10 text-primary" : "bg-primary/5 text-primary/70"
+        tag === "Gewerblich" ? "bg-primary/10 text-primary" : "bg-primary/5 text-primary"
       }`}>
         {tag}
       </span>
