@@ -143,6 +143,22 @@ Die folgenden Befunde bleiben deshalb im Scan stehen und sind geprüft.
 | `clipped-overflow-container` (2×) | Section + Filmstrip | Die geclippten Kinder sind Video, Verlaufs-Overlays und Badges, keine Tooltips oder Menüs. Das `overflow-hidden` ist von Regel 1 (`rounded-t-[2.5rem]`) und vom Bild-Rounding gefordert. |
 | `cramped-padding` (14px Text, 0px Padding) | Button | shadcn-Buttons bemaßen vertikal über `h-11`, nicht über Padding. Der Text steht mittig in 44px Höhe. |
 | `dark-glow` `#645032` | inset-Schatten | `rgba(100,80,50,0.08)` inset auf der beigen Section, exakt Regel 8. 8% Deckung, kein Glow auf dunklem Grund. |
+| Schritt-Kreis „1" (/kontakt) | 27,9% unter 4,5:1 | `text-primary` auf `bg-white` = 7:1. Die Ausreißer sind antialiaste Pixel des `border-2`-Rings. |
+| Filmstrip-Labels (Startseite) | bis 100% | Welches Label trifft, haengt nur von der zufaelligen Marquee-Position ab: die Fade-Maske am Strip-Rand (`z-10`) blendet es absichtlich aus. Labels in der Strip-Mitte liegen bei 5–6% (Glyphkanten). |
+
+### Offene Punkte
+
+- `text-brand-amber` (`#D97706`) liegt auf Weiß bei 2,96:1, nötig sind 4,5:1 für
+  die „5,0"-Bewertung und 3:1 für die Sterne. Betrifft alle fünf Seiten mit
+  Bewertungsblock. Token-Änderung, deshalb nicht eigenmächtig gesetzt.
+- `--destructive` (`#ef4444`) liegt bei 3,58–3,64:1. Auf `/kontakt` markiert es
+  über sieben Pflichtfeld-Sternchen, die damit unter AA liegen.
+- `icon-tile-stack` (3× auf `/ueber-uns`): 56×56-Icon-Kachel über der
+  Überschrift in den Werte-Karten. Stilkritik, kein Zugänglichkeitsproblem;
+  eine Änderung wäre ein Umbau der Karten.
+- Das WhatsApp-Widget (`fixed bottom-6 right-6`) überdeckt auf der Startseite
+  Telefonnummer und E-Mail im Footer sowie einen Teil der rechten
+  Leistungskarte. Layout-Thema, kein Kontrast-Thema.
 
 ### Messmethode für Kontrast
 
