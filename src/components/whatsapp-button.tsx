@@ -114,7 +114,7 @@ export function WhatsAppButton() {
             <p className="mt-1 text-[12px] leading-[1.5] text-gray-800">
               Wie können wir Ihnen helfen?
             </p>
-            <p className="mt-1 text-right text-[10px] text-gray-400">{time}</p>
+            <p className="mt-1 text-right text-[10px] text-[#5B6C55]">{time}</p>
           </div>
         </div>
 
@@ -124,7 +124,7 @@ export function WhatsAppButton() {
             href={WHATSAPP_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex w-full items-center justify-center gap-2 rounded-full py-2.5 text-[13.5px] font-semibold text-white transition-opacity hover:opacity-90"
+            className="flex w-full items-center justify-center gap-2 rounded-full py-2.5 text-[13.5px] font-semibold text-[#111B21] transition-opacity hover:opacity-90"
             style={{ backgroundColor: "#25D366" }}
           >
             {/* Inline white WA icon – no Tailwind fill class, guaranteed white */}
