@@ -325,7 +325,6 @@ export default async function Home() {
       <AblaufSection />
 
       <CTASection
-        badge="Bereit?"
         title="Bereit für Ihr Projekt?"
         subtitle="Schildern Sie uns Ihr Vorhaben – wir melden uns mit einem unverbindlichen Angebot, persönlich und auf Ihr Projekt zugeschnitten."
       />
