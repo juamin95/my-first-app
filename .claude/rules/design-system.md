@@ -103,6 +103,65 @@ className="... transition-all duration-300 group-hover:-translate-y-1 group-hove
 className="... transition-transform duration-500 group-hover:scale-105"
 ```
 
+## Impeccable Detector-Ignores
+
+Gesetzt in `.impeccable/config.json` unter `detector.ignoreRules`. Das Config-Format
+speichert bei Rule-Ignores keine Begründung, deshalb stehen sie hier:
+
+- `gradient-text` – Marken-Verlauf (`brand-green-deep` → `brand-green-vivid`) auf
+  einzelnen Akzentwörtern in Headlines und auf den KPI-Zahlen. Bewusster Teil des
+  Design-Systems, nicht dekorativ gestreut.
+- `nested-cards` – Karten in Sections mit eigenem Container-Hintergrund
+  (`bg-white/60` + `backdrop-blur-sm`) sind der Glass-Card-Look des Design-Systems.
+- `radial-spotlight-glow` – entspricht Regel 6 (Radial-Gradient-Akzent bei der
+  ersten Sage-Section nach einem Farbwechsel) und dem beige Pendant.
+- `image-hover-transform` – `group-hover:scale-105` auf Karten-Bildern ist der unter
+  „Hover-States (Karten)" festgelegte Standard.
+- `side-tab` – trifft in `whatsapp-button.tsx` das CSS-Dreieck der Sprechblase
+  (`borderRight: 8px solid white` auf einem 0×0-Element). Das ist die Standard-Technik
+  für einen Bubble-Tail, kein farbiger Karten-Rand.
+- `kicker-above-heading` – die CTASection-Badges auf `/projekte`, `/ueber-uns` und den
+  beiden Leistungsseiten benennen den Kontext und wiederholen die Überschrift nicht.
+  Echte Dubletten werden trotzdem entfernt (Startseite: `badge="Bereit?"` über
+  „Bereit für Ihr Projekt?").
+
+Rule-Ignores wirken projektweit für Source- und Live-Scan. Datei-skopierte Ignores
+und Inline-Kommentare (`impeccable-disable-line`) greifen **nur** beim Source-Scan:
+Live-Findings haben keinen Dateipfad und fallen bei der Glob-Prüfung durch.
+
+### Bekannte Falsch-Positive im Live-Scan
+
+`low-contrast`, `clipped-overflow-container`, `cramped-padding` und `dark-glow`
+werden **nicht** projektweit ignoriert — sie sollen echte Verstöße weiter finden.
+Die folgenden Befunde bleiben deshalb im Scan stehen und sind geprüft.
+
+| Befund | Gemeldet | Tatsächlich |
+|---|---|---|
+| „Professioneller Garten- &" (hero-scroll.tsx) | min 1,3:1 | h1 ist `#ffffff` auf `bg-black/50`, Median 21:1. Der Ausreißer kommt vom Kind-Span mit `text-transparent` + `bg-clip-text`. |
+| „Ausgewählte Projekte" (page.tsx) | 1,1:1 | `rgb(9,9,11)` auf `#eef6e8` ≈ 19:1. Kein Verlauf auf dem Element; der Detektor rechnet gegen den Radial-Akzent der Section. |
+| Projektkachel- und Leistungskarten-Texte | min 1,1–1,3:1 | Text auf `bg-white/60` + `backdrop-blur-sm`, effektiv ≈ `#f8fbf6`. Titel 19:1, Subtext 7,8:1, „Mehr erfahren" 6,7:1. Der Detektor löst `backdrop-filter` nicht auf. |
+| `clipped-overflow-container` (2×) | Section + Filmstrip | Die geclippten Kinder sind Video, Verlaufs-Overlays und Badges, keine Tooltips oder Menüs. Das `overflow-hidden` ist von Regel 1 (`rounded-t-[2.5rem]`) und vom Bild-Rounding gefordert. |
+| `cramped-padding` (14px Text, 0px Padding) | Button | shadcn-Buttons bemaßen vertikal über `h-11`, nicht über Padding. Der Text steht mittig in 44px Höhe. |
+| `dark-glow` `#645032` | inset-Schatten | `rgba(100,80,50,0.08)` inset auf der beigen Section, exakt Regel 8. 8% Deckung, kein Glow auf dunklem Grund. |
+
+### Messmethode für Kontrast
+
+Analytische Prüfung reicht bei Text über Fotos, Video und `backdrop-filter` nicht.
+Verlässlich ist nur Pixelmessung, und die hat vier Fallstricke, die jeweils
+Verstöße erfinden, wo keine sind:
+
+1. Glyphen mit `color: transparent` löschen, nicht mit `visibility: hidden` —
+   letzteres entfernt auch den eigenen Hintergrund, ein Button wird dann gegen
+   die Seite dahinter gemessen.
+2. Scroll-gebundene Framer-Motion-Reveals ausklingen lassen. Ein Vorfahr bei
+   `opacity: 0.53` sieht aus wie ein Kontrastfehler.
+3. Nur Pixel messen, die eine Glyphe tatsächlich bedeckt. Über die ganze
+   Bounding-Box zu mitteln zieht Ecken runder Badges und Padding mit rein.
+4. Verdeckungen ausschließen: das WhatsApp-Widget (fixed) überlagert Footer und
+   rechte Leistungskarte, die Filmstrip-Fade-Masken (`z-10`,
+   `pointer-events-none`) liegen über den Labels. `elementFromPoint` sieht durch
+   `pointer-events: none` hindurch, das muss über Rect-Überlappung geprüft werden.
+
 ## Accessibility
 - Alle `<section>` haben `aria-label`
 - Scroll-Dots in Bewertungskarussells haben `aria-label="Bewertung X von Y"`

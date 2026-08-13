@@ -1,0 +1,14 @@
+{
+  "detector": {
+    "ignoreRules": [
+      "gradient-text",
+      "nested-cards",
+      "radial-spotlight-glow",
+      "image-hover-transform",
+      "side-tab",
+      "kicker-above-heading"
+    ],
+    "ignoreFiles": [],
+    "ignoreValues": []
+  }
+}
