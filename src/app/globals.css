@@ -137,13 +137,14 @@
   animation: scroll-left 55s linear infinite;
 }
 
-@keyframes scroll-bounce {
+@keyframes scroll-hint {
   0%, 100% { transform: translateY(0); }
   50%       { transform: translateY(6px); }
 }
 
-.animate-scroll-bounce {
-  animation: scroll-bounce 1.4s ease-in-out infinite;
+/* ease-out-quart statt ease-in-out: decelerierend, ohne Bounce-Anmutung */
+.animate-scroll-hint {
+  animation: scroll-hint 1.4s cubic-bezier(0.25, 1, 0.5, 1) infinite;
 }
 
 
@@ -157,10 +158,9 @@
     transition-duration: 0.01ms !important;
   }
 
-  .animate-bounce,
   .animate-scroll-left,
   .animate-scroll-left-slow,
-  .animate-scroll-bounce {
+  .animate-scroll-hint {
     animation: none !important;
   }
 }
