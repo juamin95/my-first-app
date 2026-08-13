@@ -38,7 +38,7 @@ export function PageHero({
 
       <div className="relative z-10 mx-auto max-w-4xl px-4 py-32 text-center sm:px-6">
         <FadeIn direction="none">
-          <span className="inline-block rounded-full border border-white/20 bg-white/15 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-white backdrop-blur-sm">
+          <span className="inline-block rounded-full border border-white/20 bg-black/55 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-white backdrop-blur-sm">
             {badge}
           </span>
         </FadeIn>
