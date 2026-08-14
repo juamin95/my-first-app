@@ -146,13 +146,19 @@ Die folgenden Befunde bleiben deshalb im Scan stehen und sind geprüft.
 | Schritt-Kreis „1" (/kontakt) | 27,9% unter 4,5:1 | `text-primary` auf `bg-white` = 7:1. Die Ausreißer sind antialiaste Pixel des `border-2`-Rings. |
 | Filmstrip-Labels (Startseite) | bis 100% | Welches Label trifft, haengt nur von der zufaelligen Marquee-Position ab: die Fade-Maske am Strip-Rand (`z-10`) blendet es absichtlich aus. Labels in der Strip-Mitte liegen bei 5–6% (Glyphkanten). |
 
+### Kontrast-Untergrenzen der Farbtokens
+
+Geprüft auf Weiß bzw. dem jeweiligen Kartenhintergrund. Wer diese Tokens ändert,
+muss die Werte neu messen:
+
+| Token | Wert | Kontrast | Verwendung |
+|---|---|---|---|
+| `brand-amber` | `#B45309` | 5,02:1 | „5,0"-Bewertung (Text, 4,5:1) und Sterne (Icon, 3:1) |
+| `--destructive` | `hsl(0 72.2% 50.6%)` = `#DC2626` | 4,83:1 | Pflichtfeld-Sternchen, weißer Text auf destructive-Button |
+| `--primary` | `hsl(104 39% 28%)` = `#3a632c` | 7,02:1 weiß darauf | Buttons, Badges, Schritt-Kreise |
+
 ### Offene Punkte
 
-- `text-brand-amber` (`#D97706`) liegt auf Weiß bei 2,96:1, nötig sind 4,5:1 für
-  die „5,0"-Bewertung und 3:1 für die Sterne. Betrifft alle fünf Seiten mit
-  Bewertungsblock. Token-Änderung, deshalb nicht eigenmächtig gesetzt.
-- `--destructive` (`#ef4444`) liegt bei 3,58–3,64:1. Auf `/kontakt` markiert es
-  über sieben Pflichtfeld-Sternchen, die damit unter AA liegen.
 - `icon-tile-stack` (3× auf `/ueber-uns`): 56×56-Icon-Kachel über der
   Überschrift in den Werte-Karten. Stilkritik, kein Zugänglichkeitsproblem;
   eine Änderung wäre ein Umbau der Karten.

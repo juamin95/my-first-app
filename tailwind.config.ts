@@ -23,7 +23,7 @@ const config: Config = {
   			'brand-green-cta':         '#4f802e',
   			'brand-green-cta-hover':   '#3d6624',
   			/* Amber-Akzent für Sterne, Zahlen-Highlights */
-  			'brand-amber':             '#D97706',
+  			'brand-amber':             '#B45309',
   			'brand-stone-light':       '#f5f3ee',
   			'brand-stone-mid':         '#ede9e2',
   			'brand-stone-muted':       '#e0dbd1',
