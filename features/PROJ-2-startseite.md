@@ -84,6 +84,7 @@ _To be added by /architecture_
 - All content is hardcoded as specified, no API calls
 - Uses existing shadcn/ui Card component and FadeIn animation component
 - Responsive at all breakpoints, uses Tailwind CSS exclusively
+- 2026-11-01: Hero-Video `/public/images/hero-bg.mp4` ersetzt: Drohnen-Video (23 MB, 10,9 s) durch Arbeitsszenen aus `hero-entwurf-12-web.mp4` (5,3 MB, 21,7 s, 1920x1080, ohne Ton). Pfad gleich, keine Code-Aenderung.
 
 ## QA Test Results (Re-test #5 -- Full Frontend + Security Audit)
 
