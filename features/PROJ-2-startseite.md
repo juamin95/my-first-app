@@ -1,8 +1,8 @@
 # PROJ-2: Startseite
 
-## Status: In Review
+## Status: Deployed
 **Created:** 2026-03-14
-**Last Updated:** 2026-03-14
+**Last Updated:** 2026-11-02
 
 ## Dependencies
 - Requires: PROJ-1 (Layout & Navigation)
@@ -359,4 +359,6 @@ _To be added by /architecture_
 - **Blocking items:** BUG-12 (CSP `unsafe-eval`) should be investigated before production. BUG-7 and BUG-10 are spec deviations that should be formally accepted or fixed.
 
 ## Deployment
-_To be added by /deploy_
+- **Production URL:** https://www.gruenschnitt-amini.de
+- **Deployed:** 2026-11-02 (Commit `1c7abe1`, nur Hero-Video und Einblende-Fix; die a11y-Commits von `fix/a11y-kontrast-impeccable` sind nicht enthalten)
+- **Offen:** React-Fehler #418 (Text-Hydration) in der Konsole der Produktion, Ursache nicht bestaetigt; Verdacht: Uhrzeit in `whatsapp-button.tsx`.
