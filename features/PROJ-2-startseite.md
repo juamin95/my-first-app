@@ -85,6 +85,8 @@ _To be added by /architecture_
 - Uses existing shadcn/ui Card component and FadeIn animation component
 - Responsive at all breakpoints, uses Tailwind CSS exclusively
 - 2026-11-01: Hero-Video `/public/images/hero-bg.mp4` ersetzt: Drohnen-Video (23 MB, 10,9 s) durch Arbeitsszenen aus `hero-entwurf-12-web.mp4` (5,3 MB, 21,7 s, 1920x1080, ohne Ton). Pfad gleich, keine Code-Aenderung.
+- 2026-11-02: Hero-Video erneut ersetzt durch `hero-entwurf-15-web.mp4` (8,7 MB, 33,9 s, 1920x1080).
+- 2026-11-02: Fix in `hero-scroll.tsx`: Feuerte `canplay` vor der Hydration, blieb das Video dauerhaft auf `opacity-0`. Der `readyState` wird jetzt zusaetzlich beim Mount geprueft.
 
 ## QA Test Results (Re-test #5 -- Full Frontend + Security Audit)
 

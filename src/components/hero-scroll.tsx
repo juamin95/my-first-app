@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useCallback, useState } from "react"
 import Link from "next/link"
 import { Phone, Star } from "lucide-react"
 import { motion, useReducedMotion } from "framer-motion"
@@ -9,6 +9,11 @@ import { Button } from "@/components/ui/button"
 export function HeroScroll() {
   const shouldReduce = useReducedMotion()
   const [videoReady, setVideoReady] = useState(false)
+
+  // canplay can fire before hydration attaches onCanPlay, so also check the state on mount
+  const videoRef = useCallback((video: HTMLVideoElement | null) => {
+    if (video && video.readyState >= HTMLMediaElement.HAVE_FUTURE_DATA) setVideoReady(true)
+  }, [])
 
   // Returns motion props or empty object (immediate visibility) when reduced motion is preferred
   const reveal = (delay: number) =>
@@ -24,6 +29,7 @@ export function HeroScroll() {
     <div className="relative h-[calc(100dvh+2rem)] overflow-hidden bg-[#1a2e1a]">
       {/* Background video */}
       <video
+        ref={videoRef}
         autoPlay
         muted
         loop
