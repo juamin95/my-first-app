@@ -1,5 +1,9 @@
 # Performance Monitoring
 
+> **The code examples are written for the kit's own stack** (Next.js). The measurements and the
+> checklist apply to any web project; where an example names a Next.js API, the equivalent in this
+> project's framework is what to reach for.
+
 ## Lighthouse Check (after every deployment)
 
 1. Open Chrome DevTools (F12)

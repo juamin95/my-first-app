@@ -1,44 +1,13 @@
-# Security Headers Configuration
+# Security Headers
 
-Protect against XSS, Clickjacking, MIME sniffing, and other common web attacks.
+Protect against XSS, clickjacking, MIME sniffing, and other common web attacks. Every web
+project serves these; only the place they are configured differs.
 
-## Setup
-
-Add security headers to `next.config.ts`:
-
-```typescript
-import type { NextConfig } from 'next'
-
-const nextConfig: NextConfig = {
-  async headers() {
-    return [
-      {
-        source: '/:path*',
-        headers: [
-          {
-            key: 'X-Frame-Options',
-            value: 'DENY',
-          },
-          {
-            key: 'X-Content-Type-Options',
-            value: 'nosniff',
-          },
-          {
-            key: 'Referrer-Policy',
-            value: 'origin-when-cross-origin',
-          },
-          {
-            key: 'Strict-Transport-Security',
-            value: 'max-age=31536000; includeSubDomains',
-          },
-        ],
-      },
-    ]
-  },
-}
-
-export default nextConfig
-```
+> **Where the concrete setup lives.** The step-by-step wiring for this project's stack is in
+> `docs/stacks/` — `framework-*.md` for anything that belongs to the framework, `backend-*.md`
+> for anything that belongs to the database. This guide is the part that holds either way: what
+> to do and why. If no pack matches this project, the *what* still applies — ask how this
+> project does it rather than skipping it.
 
 ## What Each Header Does
 
@@ -56,9 +25,23 @@ export default nextConfig
 4. Check Response Headers section
 5. Verify all 4 headers are present
 
-## Advanced (Optional)
-**Content-Security-Policy (CSP)** - The most powerful header, but can break your app if misconfigured. Only add after thorough testing:
-```
-Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'
-```
-Start with report-only mode first: `Content-Security-Policy-Report-Only`
+## Content-Security-Policy
+
+CSP is the most powerful header against XSS and the easiest to get wrong. It is not in the set
+above because it needs per-app testing — add it once the rest is live.
+
+> ⚠️ **Never ship `script-src 'self' 'unsafe-inline'`.** `'unsafe-inline'` permits exactly the
+> injected inline `<script>` that CSP exists to stop: it looks like protection while giving away
+> most of it. It is a very common copy-paste from tutorials — treat it as broken wherever you
+> find it.
+
+The safe alternative is a **nonce**: a random token generated per request and attached to the
+scripts your app legitimately renders, so anything injected by an attacker lacks the token and is
+blocked. How a framework generates and threads that token is framework-specific — see
+`docs/stacks/framework-*.md`.
+
+**Roll it out safely, whatever the stack:**
+1. Ship it as `Content-Security-Policy-Report-Only` first — the browser reports violations without
+   breaking anything.
+2. Click through the app, watch the console for violation reports, and fix what is genuinely yours.
+3. Only then switch the header name to `Content-Security-Policy`.
