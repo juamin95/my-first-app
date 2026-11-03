@@ -1,36 +1,15 @@
----
-paths:
-  - "src/app/api/**"
-  - ".env*"
-  - "supabase/**"
-  - "next.config.*"
----
-
 # Security Rules
 
-## Secrets Management
-- NEVER commit secrets, API keys, or credentials to git
-- Use `.env.local` for local development (already in .gitignore)
-- Use `NEXT_PUBLIC_` prefix ONLY for values safe to expose in browser
-- Document all required env vars in `.env.local.example` with dummy values
+- **SEC-01 Secrets:** never read/write real env or credential files, expose keys in code/logs,
+  commit them, or bypass a denial. Edit only dummy examples; tell the user where to enter real values.
+- **SEC-02 Trust:** validate external input at its trusted entry point; model output is untrusted.
+- **SEC-03 Access:** enforce identity and ownership where protected operations/data are accessed.
+- **SEC-08 Verification:** never weaken checks, suppressions or baselines to reach green; show a
+  legitimate check change for review. Auth/access changes require explicit user approval; existing
+  approval for that exact change suffices. Record exceptions, never silently waive a control.
 
-## Input Validation
-- Validate ALL user input on the server side with Zod
-- Never trust client-side validation alone
-- Sanitize data before database insertion
-
-## Authentication
-- Always verify authentication before processing API requests
-- Use Supabase RLS as a second line of defense
-- Implement rate limiting on authentication endpoints
-
-## Security Headers
-- X-Frame-Options: DENY
-- X-Content-Type-Options: nosniff
-- Referrer-Policy: origin-when-cross-origin
-- Strict-Transport-Security with includeSubDomains
-
-## Code Review Triggers
-- Any changes to RLS policies require explicit user approval
-- Any changes to authentication flow require explicit user approval
-- Any new environment variables must be documented in .env.local.example
+Before designing, building, testing or releasing affected code, select the applicable sections in
+`docs/kit/guides/security.md` using the registry's platform/stack, **each affected layer** and the
+actual feature. Load auth guidance whenever real credentials are checked, including native apps;
+HTTP/browser guidance only for the runtime that serves them. Unknown is not absent; clarify it.
+A missing stack pack changes the mechanism, never the security requirement.

@@ -1,31 +1,41 @@
-# Feature Index
+# Feature-Übersicht
 
-> Central tracking for all features. Updated by skills automatically.
+> Zentrale Übersicht aller Features. Die Skills aktualisieren sie automatisch.
 
-## Status Legend
-- **Planned** - Requirements written, ready for development
-- **In Progress** - Currently being built
-- **In Review** - QA testing in progress
-- **Deployed** - Live in production
+## Status-Legende
+- **Roadmap** - Geplant, noch keine Spec (`/write-spec`)
+- **Mapped** - Läuft bereits im Code, von `/map` gefunden, noch keine Spec (`/reverse-spec`)
+- **Spec'd** - Spec aus dem Code rekonstruiert und vom Nutzer bestätigt (`/reverse-spec`)
+- **Planned** - Spec geschrieben, bereit für das technische Design (`/architecture`)
+- **Architected** - Technisches Design steht (`design.md`), bereit für die Aufgabenliste (`/tasks`)
+- **Tasked** - Aufgabenliste steht (`tasks.md`), bereit zum Bauen (`/build`)
+- **In Progress** - Wird gerade gebaut
+- **In Review** - QA-Test läuft (`/qa`)
+- **Approved** - QA bestanden, bereit für den Go-live (`/deploy`)
+- **Deployed** - Live in Produktion
+- **Merged** - Spec in ein anderes Feature übernommen (`/refine`), Ordner in `features/archive/`
 
 ## Features
 
-| ID | Feature | Status | Spec | Created |
-|----|---------|--------|------|---------|
-| PROJ-0 | Design System & Styleguide | Deployed | [PROJ-0-styleguide.md](PROJ-0-styleguide.md) | 2026-04-04 |
-| PROJ-1 | Layout & Navigation | Deployed | [PROJ-1-layout-navigation.md](PROJ-1-layout-navigation.md) | 2026-03-14 |
-| PROJ-2 | Startseite | Deployed | [PROJ-2-startseite.md](PROJ-2-startseite.md) | 2026-03-14 |
-| PROJ-3a | Leistungen – Gewerbe & Öffentliche Hand | Deployed | [PROJ-3a-leistungen-gewerbe.md](PROJ-3a-leistungen-gewerbe.md) | 2026-04-02 |
-| PROJ-3b | Leistungen – Private Gardening | Deployed | [PROJ-3b-leistungen-privat.md](PROJ-3b-leistungen-privat.md) | 2026-04-03 |
-| PROJ-4 | Über uns Seite | Deployed | [PROJ-4-ueber-uns.md](PROJ-4-ueber-uns.md) | 2026-03-14 |
-| PROJ-5 | Kontaktformular & Lead-Erfassung | In Review | [PROJ-5-kontaktformular.md](PROJ-5-kontaktformular.md) | 2026-03-14 |
-| PROJ-6 | Projektgalerie (Portfolio) | Deployed | [PROJ-6-projektgalerie.md](PROJ-6-projektgalerie.md) | 2026-03-14 |
-| PROJ-7 | CMS Admin-Interface | In Progress | [PROJ-7-cms-admin.md](PROJ-7-cms-admin.md) | 2026-03-14 |
-| PROJ-8 | WhatsApp Chat-Widget | Deployed | [PROJ-8-whatsapp-widget.md](PROJ-8-whatsapp-widget.md) | 2026-03-22 |
+| ID | Feature | Beschreibung | Status | Spec | Created |
+|----|---------|--------------|--------|------|---------|
+| PROJ-0 | Design System & Styleguide |  | Deployed | [features/PROJ-0-styleguide/](PROJ-0-styleguide/) | 2026-04-04 |
+| PROJ-1 | Layout & Navigation |  | Deployed | [features/PROJ-1-layout-navigation/](PROJ-1-layout-navigation/) | 2026-03-14 |
+| PROJ-2 | Startseite |  | Deployed | [features/PROJ-2-startseite/](PROJ-2-startseite/) | 2026-03-14 |
+| PROJ-3a | Leistungen – Gewerbe & Öffentliche Hand |  | Deployed | [features/PROJ-3a-leistungen-gewerbe/](PROJ-3a-leistungen-gewerbe/) | 2026-04-02 |
+| PROJ-3b | Leistungen – Private Gardening |  | Deployed | [features/PROJ-3b-leistungen-privat/](PROJ-3b-leistungen-privat/) | 2026-04-03 |
+| PROJ-4 | Über uns Seite |  | Deployed | [features/PROJ-4-ueber-uns/](PROJ-4-ueber-uns/) | 2026-03-14 |
+| PROJ-5 | Kontaktformular & Lead-Erfassung |  | In Review | [features/PROJ-5-kontaktformular/](PROJ-5-kontaktformular/) | 2026-03-14 |
+| PROJ-6 | Projektgalerie (Portfolio) |  | Deployed | [features/PROJ-6-projektgalerie/](PROJ-6-projektgalerie/) | 2026-03-14 |
+| PROJ-7 | CMS Admin-Interface |  | In Progress | [features/PROJ-7-cms-admin/](PROJ-7-cms-admin/) | 2026-03-14 |
+| PROJ-8 | WhatsApp Chat-Widget |  | Deployed | [features/PROJ-8-whatsapp-widget/](PROJ-8-whatsapp-widget/) | 2026-03-22 |
+| PROJ-9 | Auffindbarkeit (SEO) | Suchmaschinen bekommen robots.txt, eine Sitemap mit allen veröffentlichten Projekten, strukturierte Daten und llms.txt. | Mapped |  | 2026-11-03 |
 
 <!-- Add features above this line -->
 
-## Next Available ID: PROJ-9
+**Reihenfolge:** Mapped: PROJ-9 (einziges Feature ohne Spec → `/reverse-spec PROJ-9`). Alle übrigen Features haben ihre Spec aus der Migration.
+
+## Next Available ID: PROJ-10
 
 ---
 

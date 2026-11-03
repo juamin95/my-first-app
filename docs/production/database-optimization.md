@@ -1,5 +1,12 @@
 # Database Optimization
 
+Five things that decide whether a database stays fast as data grows. Every one of them holds in
+any SQL database.
+
+> **The code examples are written for the kit's own stack** (Supabase's JavaScript client). They are
+> there to make each principle concrete, not to prescribe a library — the same rule applies through
+> an ORM, a query builder, or plain SQL.
+
 ## 1. Indexing
 
 Create indexes on columns used in WHERE, ORDER BY, or JOIN clauses:

@@ -8,6 +8,8 @@
 
 # testing
 /coverage
+playwright-report/
+test-results/
 
 # next.js
 /.next/
@@ -34,6 +36,9 @@ yarn-error.log*
 # claude code personal settings
 .claude/settings.local.json
 .mcp.json
+
+# ai engineering kit
+.ai-eng-kit-backup/
 
 # typescript
 *.tsbuildinfo
